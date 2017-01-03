@@ -1,0 +1,5879 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Api Documentation",
+    "version": "1.0",
+    "title": "Api Documentation",
+    "termsOfService": "urn:tos",
+    "contact": {
+      "name": "Contact Email"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0"
+    }
+  },
+  "host": "connect.routee.net",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "contacts",
+      "description": "operations for contacts"
+    },
+    {
+      "name": "sms",
+      "description": "operations for sms"
+    },
+    {
+      "name": "reports",
+      "description": "operations for reports"
+    },
+    {
+      "name": "groups",
+      "description": "groups"
+    },
+    {
+      "name": "mcc_mnc",
+      "description": "operations for mcc/mnc"
+    },
+    {
+      "name": "invitations",
+      "description": "operations for invitations"
+    },
+    {
+      "name": "blacklist",
+      "description": "operations for adding/removing contacts from blacklists"
+    },
+    {
+      "name": "applications",
+      "description": "operations for applications"
+    },
+    {
+      "name": "campaign-controller-impl",
+      "description": "Campaign Controller Impl"
+    },
+    {
+      "name": "sms_templates",
+      "description": "operations for sms templates"
+    },
+    {
+      "name": "quiet-hours",
+      "description": "operations for quiet hours"
+    },
+    {
+      "name": "system",
+      "description": "operations for retrieving generic system data (timezones, languages etc)"
+    },
+    {
+      "name": "users",
+      "description": "operations for user"
+    },
+    {
+      "name": "audiotracking",
+      "description": "operations for call tracking"
+    },
+    {
+      "name": "smstracking",
+      "description": "operations for sms tracking"
+    },
+    {
+      "name": "2step",
+      "description": "operations for 2step"
+    },
+    {
+      "name": "audio",
+      "description": "operations for the audio service"
+    },
+    {
+      "name": "contact-fields",
+      "description": "operations for contact fields"
+    },
+    {
+      "name": "file",
+      "description": "operations for file import"
+    },
+    {
+      "name": "accounts",
+      "description": "operations for account"
+    },
+    {
+      "name": "forgot-password",
+      "description": "operations for forgot password"
+    },
+    {
+      "name": "translations",
+      "description": "operations for translations"
+    }
+  ],
+  "paths": {
+    "/2step": {
+      "post": {
+        "tags": [
+          "2step"
+        ],
+        "summary": "create verification",
+        "description": "creates a new verification and sends the message to the recipient",
+        "operationId": "verifyUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "request",
+            "description": "request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/VerificationDto"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The new verification",
+            "schema": {
+              "$ref": "#/definitions/VerificationStatusDto"
+            }
+          }
+        }
+      }
+    },
+    "/sms": {
+      "post": {
+        "tags": [
+          "sms"
+        ],
+        "summary": "send sms",
+        "description": "Sends an sms",
+        "operationId": "sendSmsUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "smsRequestDto",
+            "description": "smsRequestDto",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SmsRequestDto"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The Sms info",
+            "schema": {
+              "$ref": "#/definitions/SmsDto"
+            }
+          },
+          "403": {
+            "description": "User is not authenticated",
+            "schema": {
+              "$ref": "#/definitions/NotAuthenticatedServiceException"
+            }
+          },
+          "404": {
+            "description": "User is not found",
+            "schema": {
+              "$ref": "#/definitions/UserNotFoundServiceException"
+            }
+          }
+        }
+      }
+    },
+    "/sms/analyze": {
+      "post": {
+        "tags": [
+          "sms"
+        ],
+        "summary": "analyze sms",
+        "description": "Analyzes an sms",
+        "operationId": "analyzeSmsUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "smsRequestDto",
+            "description": "smsRequestDto",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SmsRequestDto"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The SmsAnalysis for the given sms request",
+            "schema": {
+              "$ref": "#/definitions/SmsAnalysisDto"
+            }
+          },
+          "403": {
+            "description": "User is not authenticated",
+            "schema": {
+              "$ref": "#/definitions/NotAuthenticatedServiceException"
+            }
+          },
+          "404": {
+            "description": "User is not found",
+            "schema": {
+              "$ref": "#/definitions/UserNotFoundServiceException"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "ApplicationDto": {
+      "required": [
+        "accessTokenValidityInSeconds",
+        "description",
+        "id",
+        "name",
+        "oauthAppId",
+        "primary",
+        "services",
+        "settings"
+      ],
+      "properties": {
+        "accessTokenValidityInSeconds": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The time (in seconds) that the access token of application will be valid"
+        },
+        "description": {
+          "type": "string",
+          "description": "The application description"
+        },
+        "id": {
+          "type": "string",
+          "description": "The id of the application"
+        },
+        "name": {
+          "type": "string",
+          "description": "The application name"
+        },
+        "oauthAppId": {
+          "type": "string",
+          "description": "The application id that is used as a username in order to make api calls"
+        },
+        "primary": {
+          "type": "boolean",
+          "description": "If the application is the default application for the account"
+        },
+        "services": {
+          "type": "array",
+          "description": "All the services that the application has access to",
+          "items": {
+            "type": "string"
+          }
+        },
+        "settings": {
+          "type": "object",
+          "description": "The settings of this application for each service",
+          "additionalProperties": {
+            "$ref": "#/definitions/ServiceSettingDto"
+          }
+        }
+      },
+      "description": "Basic information about an application."
+    },
+    "AccountContactDto": {
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "firstName": {
+          "type": "string",
+          "description": "The first name of the contact"
+        },
+        "lastName": {
+          "type": "string",
+          "description": "The last name of the contact"
+        },
+        "mobile": {
+          "type": "string",
+          "description": "The mobile number of the contact"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the contact"
+        },
+        "telephone": {
+          "type": "string",
+          "description": "The land number of the contact"
+        }
+      },
+      "description": "Represents the Contact details of an Account"
+    },
+    "InvalidSearchFiltersServiceException": {
+      "properties": {
+        "cause": {
+          "$ref": "#/definitions/Throwable"
+        },
+        "code": {
+          "type": "string"
+        },
+        "developerMessage": {
+          "type": "string"
+        },
+        "localizedMessage": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "rejectedSearchFilters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SearchFilter"
+          }
+        },
+        "stackTrace": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StackTraceElement"
+          }
+        },
+        "suppressed": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Throwable"
+          }
+        }
+      }
+    },
+    "VolPriceBreakdownForCampaignReportDto": {
+      "properties": {
+        "campaignId": {
+          "type": "string",
+          "description": "The campaign id that this reports is associated"
+        },
+        "reportEntities": {
+          "type": "array",
+          "description": "A collection with each reports grouped by country",
+          "items": {
+            "$ref": "#/definitions/VolPriceBreakdownForCampaignReportEntityDto"
+          }
+        }
+      },
+      "description": "Contains the analytics for a range of messages associated with the account id for a specific campaign grouped by country and the per network"
+    },
+    "GroupMergeDto": {
+      "required": [
+        "groups",
+        "name"
+      ],
+      "properties": {
+        "groups": {
+          "type": "array",
+          "description": "The groups to be merged",
+          "items": {
+            "type": "string"
+          }
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the new group to be created."
+        }
+      },
+      "description": "Contains the tags of the groups that will be merged and the tag of the new group"
+    },
+    "ServiceDto": {
+      "required": [
+        "type"
+      ],
+      "properties": {
+        "statuses": {
+          "type": "array",
+          "description": "The statuses of the service",
+          "items": {
+            "type": "string"
+          }
+        },
+        "type": {
+          "type": "string",
+          "description": "The type of the service"
+        }
+      },
+      "description": "Information about a Service"
+    },
+    "AccountViewDto": {
+      "required": [
+        "id",
+        "type",
+        "username"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The id of the account"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the subaccount or the company name in case the account is Master type"
+        },
+        "trial": {
+          "type": "boolean",
+          "description": "Indicates whether the account is trial or not"
+        },
+        "type": {
+          "type": "string",
+          "description": "The type of the account, it can be either Master or Sub"
+        },
+        "username": {
+          "type": "string",
+          "description": "The username"
+        }
+      },
+      "description": "Basic information about an Account."
+    },
+    "AudioVolPriceBreakdownForCountryReportDto": {
+      "properties": {
+        "countryCode": {
+          "type": "string",
+          "description": "The country's ISO code that this reports is associated"
+        },
+        "reportEntities": {
+          "type": "array",
+          "description": "A collection with each report grouped by the interval",
+          "items": {
+            "$ref": "#/definitions/AudioVolPriceBreakdownForCountryReportEntityDto"
+          }
+        }
+      },
+      "description": "Contains the analytics for a range of calls associated with the account id for a specific countryCode grouped by interval"
+    },
+    "SmsRequestDto": {
+      "required": [
+        "body",
+        "from"
+      ],
+      "properties": {
+        "body": {
+          "type": "string",
+          "description": "The message of the sms"
+        },
+        "callback": {
+          "description": "Defines the notification callback information for an individual message progress of the SMS campaign.",
+          "$ref": "#/definitions/CallbackInfoDto"
+        },
+        "flash": {
+          "type": "boolean",
+          "description": "Indicates if the sms is a flash sms, default value: false"
+        },
+        "from": {
+          "type": "string",
+          "description": "The sender id for this sms"
+        },
+        "label": {
+          "type": "string",
+          "description": "A generic label using for tagging the sms"
+        },
+        "to": {
+          "type": "string",
+          "description": "The recipient of this sms, must be a list with valid mobile numbers starting with + and the country code"
+        }
+      },
+      "description": "Represents a request for sending a single sms"
+    },
+    "AudioTrackingDto": {
+      "required": [
+        "applicationName",
+        "campaign",
+        "country",
+        "direction",
+        "duration",
+        "from",
+        "groups",
+        "id",
+        "originatingService",
+        "recipient",
+        "status"
+      ],
+      "properties": {
+        "applicationName": {
+          "type": "string",
+          "description": "The name of the application that was used to send this message"
+        },
+        "campaign": {
+          "type": "string",
+          "description": "The name of the campaign that this message was send from"
+        },
+        "country": {
+          "type": "string",
+          "description": "The country of the recipient"
+        },
+        "direction": {
+          "type": "string",
+          "description": "The direction of this call"
+        },
+        "duration": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The duration of this call"
+        },
+        "from": {
+          "type": "string",
+          "description": "The caller"
+        },
+        "groups": {
+          "type": "array",
+          "description": "The groups that the recipient belongs",
+          "items": {
+            "type": "string"
+          }
+        },
+        "id": {
+          "type": "string",
+          "description": "The id of the call tracking"
+        },
+        "originatingService": {
+          "type": "string",
+          "description": "The service that send this message"
+        },
+        "recipient": {
+          "type": "string",
+          "description": "The recipient"
+        },
+        "status": {
+          "description": "The status of the call tracking",
+          "$ref": "#/definitions/AudioStatusDto"
+        }
+      },
+      "description": "Represents a tracking for a specific call"
+    },
+    "MultipartFile": {},
+    "CampaignDto": {
+      "required": [
+        "trackingId",
+        "type"
+      ],
+      "properties": {
+        "campaignName": {
+          "type": "string",
+          "description": "The name of the campaign"
+        },
+        "createdAt": {
+          "description": "The time the campaign was created",
+          "$ref": "#/definitions/OffsetDateTime"
+        },
+        "respectQuietHours": {
+          "type": "boolean",
+          "description": "Indicates if the sms should respects the quiet hours, default value: false"
+        },
+        "state": {
+          "type": "string",
+          "description": "The status of the campaign"
+        },
+        "trackingId": {
+          "type": "string",
+          "description": "The tracking number of the campaign"
+        },
+        "type": {
+          "type": "string",
+          "description": "The service type of the campaign"
+        }
+      },
+      "description": "Basic information about a campaign"
+    },
+    "TranslatedIndustryDto": {
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "LanguageDto": {
+      "required": [
+        "code",
+        "localeName",
+        "name"
+      ],
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "The language code in ISO 639-1 format"
+        },
+        "localeName": {
+          "type": "string",
+          "description": "The language name translated in this language"
+        },
+        "name": {
+          "type": "string",
+          "description": "The language name translated in the requested language"
+        }
+      },
+      "description": "Represents a language"
+    },
+    "ReportInfoForNetworkDto": {
+      "properties": {
+        "cost": {
+          "type": "number",
+          "format": "double",
+          "description": "he total cost for the total sms of the report for the company"
+        },
+        "mnc": {
+          "type": "string",
+          "description": "The Mnc of this report"
+        },
+        "operator": {
+          "type": "string",
+          "description": "The operator of this report"
+        },
+        "price": {
+          "type": "number",
+          "format": "double",
+          "description": "The total price fot the total sms of the report for the customer"
+        },
+        "smsVolumes": {
+          "description": "The volumes of the sms for each state",
+          "$ref": "#/definitions/SmsVolumesDto"
+        }
+      },
+      "description": "Contains the information of a report"
+    },
+    "OAuth2AccessToken": {
+      "properties": {
+        "additionalInformation": {
+          "type": "object"
+        },
+        "expiration": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "expired": {
+          "type": "boolean"
+        },
+        "expiresIn": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "refreshToken": {
+          "$ref": "#/definitions/OAuth2RefreshToken"
+        },
+        "scope": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "tokenType": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "NotAuthenticatedServiceException": {
+      "properties": {
+        "cause": {
+          "$ref": "#/definitions/Throwable"
+        },
+        "code": {
+          "type": "string"
+        },
+        "developerMessage": {
+          "type": "string"
+        },
+        "localizedMessage": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "stackTrace": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StackTraceElement"
+          }
+        },
+        "suppressed": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Throwable"
+          }
+        }
+      }
+    },
+    "PricingEntityDto": {
+      "required": [
+        "address",
+        "banks",
+        "email",
+        "name",
+        "phone",
+        "vatId"
+      ],
+      "properties": {
+        "address": {
+          "type": "string",
+          "description": "The address of the entity"
+        },
+        "banks": {
+          "type": "array",
+          "description": "The available banks for this entity",
+          "items": {
+            "$ref": "#/definitions/BankDto"
+          }
+        },
+        "email": {
+          "type": "string",
+          "description": "The email of the entity"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the entity"
+        },
+        "phone": {
+          "type": "string",
+          "description": "The phone of the entity"
+        },
+        "vatId": {
+          "type": "string",
+          "description": "The vat id of the entity"
+        }
+      },
+      "description": "Represents the a pricing entity with the available banks"
+    },
+    "ContactListNotFoundServiceException": {
+      "properties": {
+        "cause": {
+          "$ref": "#/definitions/Throwable"
+        },
+        "code": {
+          "type": "string"
+        },
+        "developerMessage": {
+          "type": "string"
+        },
+        "entity": {
+          "type": "string"
+        },
+        "localizedMessage": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "property": {
+          "type": "string"
+        },
+        "stackTrace": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StackTraceElement"
+          }
+        },
+        "suppressed": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Throwable"
+          }
+        },
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "RoleDto": {
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "description": "Represents a user role"
+    },
+    "LocalTime": {
+      "properties": {
+        "hour": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "minute": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "nano": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "second": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "Page«TransactionDto»": {
+      "properties": {
+        "content": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TransactionDto"
+          }
+        },
+        "first": {
+          "type": "boolean"
+        },
+        "last": {
+          "type": "boolean"
+        },
+        "number": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "numberOfElements": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "size": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "sort": {
+          "$ref": "#/definitions/Sort"
+        },
+        "totalElements": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "totalPages": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "Instant": {
+      "properties": {
+        "epochSecond": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "nano": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "VerificationExpiredServiceException": {
+      "properties": {
+        "cause": {
+          "$ref": "#/definitions/Throwable"
+        },
+        "code": {
+          "type": "string"
+        },
+        "developerMessage": {
+          "type": "string"
+        },
+        "localizedMessage": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "stackTrace": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StackTraceElement"
+          }
+        },
+        "suppressed": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Throwable"
+          }
+        }
+      }
+    },
+    "DuplicateCustomFieldServiceException": {
+      "properties": {
+        "cause": {
+          "$ref": "#/definitions/Throwable"
+        },
+        "code": {
+          "type": "string"
+        },
+        "developerMessage": {
+          "type": "string"
+        },
+        "duplicateCustomFieldNames": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ContactCustomField"
+          }
+        },
+        "entity": {
+          "type": "string"
+        },
+        "localizedMessage": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "property": {
+          "type": "string"
+        },
+        "stackTrace": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StackTraceElement"
+          }
+        },
+        "suppressed": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Throwable"
+          }
+        },
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "UserUpdateDto": {
+      "required": [
+        "email",
+        "mobile",
+        "timeZone"
+      ],
+      "properties": {
+        "email": {
+          "type": "string",
+          "description": "The email, must be a valid email"
+        },
+        "firstName": {
+          "type": "string",
+          "description": "The first name of the user, 2 to 20 characters"
+        },
+        "lastName": {
+          "type": "string",
+          "description": "The last name of the user, 3 to 40 characters"
+        },
+        "mobile": {
+          "type": "string",
+          "description": "The mobile, must be a valid phone number"
+        },
+        "timeZone": {
+          "type": "string",
+          "description": "The timezone of the user, it has the timezone id e.g. 'Europe/Athens'"
+        }
+      },
+      "description": "Represents information that is needed in order to update a user"
+    },
+    "Page«ContactGroupDto»": {
+      "properties": {
+        "content": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ContactGroupDto"
+          }
+        },
+        "first": {
+          "type": "boolean"
+        },
+        "last": {
+          "type": "boolean"
+        },
+        "number": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "numberOfElements": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "size": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "sort": {
+          "$ref": "#/definitions/Sort"
+        },
+        "totalElements": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "totalPages": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "SmsLatencyReportDto": {
+      "properties": {
+        "smsLatencyCount": {
+          "type": "array",
+          "description": "A collection containing the count of the sms delivered by their latency",
+          "items": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "description": "Contains the sms latency array for specific matching criteria"
+    },
+    "UserNotFoundServiceException": {
+      "properties": {
+        "cause": {
+          "$ref": "#/definitions/Throwable"
+        },
+        "code": {
+          "type": "string"
+        },
+        "developerMessage": {
+          "type": "string"
+        },
+        "entity": {
+          "type": "string"
+        },
+        "localizedMessage": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "property": {
+          "type": "string"
+        },
+        "stackTrace": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StackTraceElement"
+          }
+        },
+        "suppressed": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Throwable"
+          }
+        },
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "InvitationAlreadySentServiceException": {
+      "properties": {
+        "cause": {
+          "$ref": "#/definitions/Throwable"
+        },
+        "code": {
+          "type": "string"
+        },
+        "developerMessage": {
+          "type": "string"
+        },
+        "entity": {
+          "type": "string"
+        },
+        "localizedMessage": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "property": {
+          "type": "string"
+        },
+        "stackTrace": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StackTraceElement"
+          }
+        },
+        "suppressed": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Throwable"
+          }
+        },
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "SmsDto": {
+      "required": [
+        "body",
+        "bodyAnalysis",
+        "from",
+        "to",
+        "trackingId"
+      ],
+      "properties": {
+        "body": {
+          "type": "string",
+          "description": "The message"
+        },
+        "bodyAnalysis": {
+          "description": "The analysis data for this sms",
+          "$ref": "#/definitions/SmsBodyAnalysisDto"
+        },
+        "callback": {
+          "description": "Defines the notification callback information for an individual message progress of the SMS campaign.",
+          "$ref": "#/definitions/CallbackInfoDto"
+        },
+        "createdAt": {
+          "description": "The time that the SMS was created",
+          "$ref": "#/definitions/OffsetDateTime"
+        },
+        "flash": {
+          "type": "boolean",
+          "description": "Indicates if the sms is a flash sms"
+        },
+        "from": {
+          "type": "string",
+          "description": "The sender id"
+        },
+        "label": {
+          "type": "string",
+          "description": "A generic label using for tagging the sms"
+        },
+        "status": {
+          "type": "string",
+          "description": "The status of the SMS"
+        },
+        "to": {
+          "type": "string",
+          "description": "The recipient"
+        },
+        "trackingId": {
+          "type": "string",
+          "description": "The message id"
+        }
+      },
+      "description": "Represents a status for a single Sms"
+    },
+    "ServiceSettingDto": {
+      "description": "Base DTO for a Service setting (see SmsSettingDto)"
+    },
+    "SmsNetworkPriceDto": {
+      "required": [
+        "mnc",
+        "network",
+        "price"
+      ],
+      "properties": {
+        "mnc": {
+          "type": "string",
+          "description": "The mnc"
+        },
+        "network": {
+          "type": "string",
+          "description": "The network name"
+        },
+        "price": {
+          "type": "number",
+          "format": "double",
+          "description": "The price"
+        }
+      },
+      "description": "Sms Price for a specific network"
+    },
+    "DialPlanNotFoundServiceException": {
+      "properties": {
+        "cause": {
+          "$ref": "#/definitions/Throwable"
+        },
+        "code": {
+          "type": "string"
+        },
+        "developerMessage": {
+          "type": "string"
+        },
+        "entity": {
+          "type": "string"
+        },
+        "localizedMessage": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "property": {
+          "type": "string"
+        },
+        "stackTrace": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StackTraceElement"
+          }
+        },
+        "suppressed": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Throwable"
+          }
+        },
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "InvitationDto": {
+      "required": [
+        "friendlyName",
+        "recipientEmail",
+        "role"
+      ],
+      "properties": {
+        "friendlyName": {
+          "type": "string",
+          "description": "The friendly name of the referenced user"
+        },
+        "invitationId": {
+          "type": "string",
+          "description": "The randomly generated identification for the invitation process"
+        },
+        "recipientEmail": {
+          "type": "string",
+          "description": "The email address of the referenced user"
+        },
+        "role": {
+          "type": "string",
+          "description": "The specified role for referenced user"
+        },
+        "status": {
+          "type": "string",
+          "description": "The current status of the invitation process"
+        }
+      },
+      "description": "Represents a user invitation for managing an account of the application"
+    },
+    "ZoneRules": {
+      "properties": {
+        "fixedOffset": {
+          "type": "boolean"
+        },
+        "transitionRules": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ZoneOffsetTransitionRule"
+          }
+        },
+        "transitions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ZoneOffsetTransition"
+          }
+        }
+      }
+    },
+    "CommandDto": {},
+    "BraintreeTokenDto": {
+      "properties": {
+        "issuedAt": {
+          "$ref": "#/definitions/OffsetDateTime"
+        },
+        "tokenValue": {
+          "type": "string"
+        }
+      }
+    },
+    "AudioStatusDto": {
+      "required": [
+        "date",
+        "status"
+      ],
+      "properties": {
+        "date": {
+          "description": "The date that the status was reported",
+          "$ref": "#/definitions/OffsetDateTime"
+        },
+        "status": {
+          "type": "string",
+          "description": "The status"
+        }
+      },
+      "description": "Represents a status for an call"
+    },
+    "RoleNotFoundServiceException": {
+      "properties": {
+        "cause": {
+          "$ref": "#/definitions/Throwable"
+        },
+        "code": {
+          "type": "string"
+        },
+        "developerMessage": {
+          "type": "string"
+        },
+        "entity": {
+          "type": "string"
+        },
+        "localizedMessage": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "property": {
+          "type": "string"
+        },
+        "stackTrace": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StackTraceElement"
+          }
+        },
+        "suppressed": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Throwable"
+          }
+        },
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "QuietHourCountryDto": {
+      "required": [
+        "code",
+        "isoA3Code",
+        "localeName",
+        "name",
+        "supported"
+      ],
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "The country code in ISO 3166-1 alpha-2 format"
+        },
+        "isoA3Code": {
+          "type": "string",
+          "description": "The code of the country in ISO 3166-1 alpha-2 format"
+        },
+        "localeName": {
+          "type": "string",
+          "description": "The country name translated in its native language"
+        },
+        "name": {
+          "type": "string",
+          "description": "The country name translated in the requested language"
+        },
+        "supported": {
+          "type": "boolean",
+          "description": "Indicates if the country is supported by the quiet hours feature"
+        }
+      },
+      "description": "Contains information for an sms message after being analyzed"
+    },
+    "GroupCreationDto": {
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "filters": {
+          "type": "array",
+          "description": "The filters to apply and create the group from their result",
+          "items": {
+            "$ref": "#/definitions/SearchFilterDto"
+          }
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the group to be created."
+        },
+        "strategy": {
+          "type": "string",
+          "description": "Defines the way that the group should be populated. If not set (or set to 'None') the group will be empty.If it's set to 'Filtered' the group will be populated based on the filters provided. If it's set to 'All', the groupwill include all the contacts of the account.",
+          "enum": [
+            "All",
+            "None",
+            "Filtered"
+          ]
+        }
+      },
+      "description": "Contains the tag of the new group and the criteria to define its contacts (contact collection or filters)"
+    },
+    "TranslationDto": {
+      "required": [
+        "code",
+        "translations",
+        "type"
+      ],
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "The language code"
+        },
+        "translations": {
+          "type": "object",
+          "description": "An object that has the word as key and the translation for the specific code as value",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "type": {
+          "type": "string",
+          "description": "The translation type area"
+        }
+      },
+      "description": "Represents translations for a specific type area"
+    },
+    "AudioVolumesDto": {
+      "properties": {
+        "busy": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The count of the busy calls"
+        },
+        "completed": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The count of the completed calls"
+        },
+        "count": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The total calls count"
+        },
+        "failed": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The count of the failed calls"
+        },
+        "inProgress": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The count of the inProgress calls"
+        },
+        "initiated": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The count of the initiated calls"
+        },
+        "noAnswer": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The count of the not answered calls"
+        },
+        "queued": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The count of the queued calls"
+        },
+        "ringing": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The count of the ringing calls"
+        },
+        "unknown": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The count of the unknown calls"
+        }
+      },
+      "description": "Contains the volumes of the calls for each state"
+    },
+    "LookupBreakdownReportSummaryDto": {
+      "properties": {
+        "timeGrouping": {
+          "type": "string",
+          "description": "The grouping used in this report"
+        },
+        "totalAbsent": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The total absent"
+        },
+        "totalActive": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The total active"
+        },
+        "totalCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The total count"
+        },
+        "totalFailed": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The total failed"
+        },
+        "totalPrice": {
+          "type": "number",
+          "format": "double",
+          "description": "The total price"
+        },
+        "totalQueued": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The total queued"
+        },
+        "totalUnknown": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The total unknown"
+        }
+      },
+      "description": "Contains the totals analytics for a range of HLR lookup records associated with the account id"
+    },
+    "LabelDefinitionDto": {
+      "required": [
+        "name",
+        "type"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the custom field"
+        },
+        "type": {
+          "type": "string",
+          "description": "The type of the custom field. Supported types are : Text, Date or Number"
+        }
+      },
+      "description": "Contains the name and the type of a contact's custom field definition."
+    },
+    "NotMasterAccountServiceException": {
+      "properties": {
+        "cause": {
+          "$ref": "#/definitions/Throwable"
+        },
+        "code": {
+          "type": "string"
+        },
+        "developerMessage": {
+          "type": "string"
+        },
+        "localizedMessage": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "stackTrace": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StackTraceElement"
+          }
+        },
+        "suppressed": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Throwable"
+          }
+        }
+      }
+    },
+    "InvitationFinalStatusServiceException": {
+      "properties": {
+        "cause": {
+          "$ref": "#/definitions/Throwable"
+        },
+        "code": {
+          "type": "string"
+        },
+        "developerMessage": {
+          "type": "string"
+        },
+        "localizedMessage": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "stackTrace": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StackTraceElement"
+          }
+        },
+        "suppressed": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Throwable"
+          }
+        }
+      }
+    },
+    "WordDto": {
+      "required": [
+        "code",
+        "translation",
+        "word"
+      ],
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "The language code"
+        },
+        "translation": {
+          "type": "string",
+          "description": "The translation text"
+        },
+        "word": {
+          "type": "string",
+          "description": "The ID of the Translated word"
+        }
+      },
+      "description": "Represents the translation for a specific word"
+    },
+    "StackTraceElement": {
+      "properties": {
+        "className": {
+          "type": "string"
+        },
+        "fileName": {
+          "type": "string"
+        },
+        "lineNumber": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "methodName": {
+          "type": "string"
+        },
+        "nativeMethod": {
+          "type": "boolean"
+        }
+      }
+    },
+    "SmsBodyAnalysisDto": {
+      "required": [
+        "characters",
+        "parts",
+        "unicode",
+        "unsupportedGSMCharacters"
+      ],
+      "properties": {
+        "characters": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The total number of characters"
+        },
+        "parts": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The number of actual sms that will be sent"
+        },
+        "transcode": {
+          "description": "Contains information for the transcoded body of the sms message",
+          "$ref": "#/definitions/TranscodeDto"
+        },
+        "unicode": {
+          "type": "boolean",
+          "description": "Indicates if the body contains unicode characters"
+        },
+        "unsupportedGSMCharacters": {
+          "type": "array",
+          "description": "Which characters caused the message to be considered as unicode",
+          "items": {
+            "$ref": "#/definitions/Character"
+          }
+        }
+      },
+      "description": "Contains information for a body of an sms message after being analyzed"
+    },
+    "SmsTrackingDto": {
+      "required": [
+        "applicationName",
+        "body",
+        "campaignName",
+        "country",
+        "direction",
+        "from",
+        "groups",
+        "latency",
+        "messageId",
+        "operator",
+        "originatingService",
+        "parts",
+        "price",
+        "smsId",
+        "status",
+        "to"
+      ],
+      "properties": {
+        "applicationName": {
+          "type": "string",
+          "description": "The name of the application that was used to send this message"
+        },
+        "body": {
+          "type": "string",
+          "description": "The message of the sms"
+        },
+        "campaignName": {
+          "type": "string",
+          "description": "The name of the campaign that this message was send from"
+        },
+        "country": {
+          "type": "string",
+          "description": "The country of the recipient"
+        },
+        "direction": {
+          "type": "string",
+          "description": "The direction of the message (Outbound, Inbound)"
+        },
+        "from": {
+          "type": "string",
+          "description": "The sender"
+        },
+        "groups": {
+          "type": "array",
+          "description": "The lists that the recipient belongs",
+          "items": {
+            "type": "string"
+          }
+        },
+        "label": {
+          "type": "string",
+          "description": "A generic label using for tagging the sms"
+        },
+        "latency": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The overall delivery latency of the message"
+        },
+        "messageId": {
+          "type": "string",
+          "description": "The id of the message."
+        },
+        "operator": {
+          "type": "string",
+          "description": "The operator of the recipient"
+        },
+        "originatingService": {
+          "type": "string",
+          "description": "The service that send this message"
+        },
+        "parts": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The number of parts"
+        },
+        "price": {
+          "type": "number",
+          "format": "double",
+          "description": "The price of this sms"
+        },
+        "smsId": {
+          "type": "string",
+          "description": "The id of one of the sms parts included in a message"
+        },
+        "status": {
+          "description": "The status of the sms tracking",
+          "$ref": "#/definitions/SmsStatusDto"
+        },
+        "to": {
+          "type": "string",
+          "description": "The recipient"
+        }
+      },
+      "description": "Represents a tracking for a specific sms"
+    },
+    "SearchFilter": {
+      "properties": {
+        "fieldName": {
+          "type": "string"
+        },
+        "searchOperator": {
+          "type": "string",
+          "enum": [
+            "is",
+            "is_not",
+            "contains",
+            "starts_with",
+            "ends_with"
+          ]
+        },
+        "searchTerm": {
+          "type": "object"
+        }
+      }
+    },
+    "AudioCampaignDto": {
+      "required": [
+        "audioAnalysis",
+        "contacts",
+        "dialPlanId",
+        "from",
+        "groups",
+        "to",
+        "trackingId",
+        "type"
+      ],
+      "properties": {
+        "audioAnalysis": {
+          "description": "The analysis data for this audio campaign",
+          "$ref": "#/definitions/AudioAnalysisDto"
+        },
+        "campaignName": {
+          "type": "string",
+          "description": "The name of the campaign"
+        },
+        "contacts": {
+          "type": "array",
+          "description": "The contacts",
+          "items": {
+            "type": "string"
+          }
+        },
+        "createdAt": {
+          "description": "The time the campaign was created",
+          "$ref": "#/definitions/OffsetDateTime"
+        },
+        "dialPlanId": {
+          "type": "string",
+          "description": "The dial plan id"
+        },
+        "from": {
+          "type": "string",
+          "description": "The sender id"
+        },
+        "groups": {
+          "type": "array",
+          "description": "The groups",
+          "items": {
+            "type": "string"
+          }
+        },
+        "respectQuietHours": {
+          "type": "boolean",
+          "description": "Indicates if the sms should respects the quiet hours, default value: false"
+        },
+        "scheduledDate": {
+          "description": "The time the campaign was scheduled to run",
+          "$ref": "#/definitions/OffsetDateTime"
+        },
+        "state": {
+          "type": "string",
+          "description": "The status of the campaign"
+        },
+        "statuses": {
+          "type": "object",
+          "description": "Defines the number of audio per message status",
+          "additionalProperties": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "to": {
+          "type": "array",
+          "description": "The recipient",
+          "items": {
+            "type": "string"
+          }
+        },
+        "trackingId": {
+          "type": "string",
+          "description": "The tracking number of the campaign"
+        },
+        "type": {
+          "type": "string",
+          "description": "The service type of the campaign"
+        }
+      },
+      "description": "Represents a status for an Audio campaign"
+    },
+    "TransactionActionDto": {
+      "required": [
+        "amount",
+        "balanceAfter",
+        "balanceBefore",
+        "date",
+        "id",
+        "status",
+        "type"
+      ],
+      "properties": {
+        "amount": {
+          "type": "number",
+          "format": "double",
+          "description": "The amount of the action"
+        },
+        "balanceAfter": {
+          "type": "number",
+          "format": "double",
+          "description": "The amount of balance that the account had after the processing of the action"
+        },
+        "balanceBefore": {
+          "type": "number",
+          "format": "double",
+          "description": "The amount of balance that the account had before the action was processed"
+        },
+        "date": {
+          "description": "The date that the action was created",
+          "$ref": "#/definitions/OffsetDateTime"
+        },
+        "id": {
+          "type": "string",
+          "description": "The id of the action"
+        },
+        "status": {
+          "type": "string",
+          "description": "The status of the action (Completed, Pending)"
+        },
+        "type": {
+          "type": "string",
+          "description": "The type of the action (Paid, Credit, ChangeStatus, Remove, Refund)"
+        }
+      },
+      "description": "Represents a transaction action"
+    },
+    "AudioReportInfoForCountryDto": {
+      "properties": {
+        "cost": {
+          "type": "number",
+          "format": "double",
+          "description": "The average cost per call per report for the company"
+        },
+        "country": {
+          "type": "string",
+          "description": "The country for this report"
+        },
+        "price": {
+          "type": "number",
+          "format": "double",
+          "description": "The average price per call of the report for the customer"
+        },
+        "totalCost": {
+          "type": "number",
+          "format": "double",
+          "description": "he total cost for the total calls of the report for the company"
+        },
+        "totalPrice": {
+          "type": "number",
+          "format": "double",
+          "description": "The total price for the total call of the report for the customer"
+        },
+        "volumes": {
+          "description": "The volumes of the calls for each state",
+          "$ref": "#/definitions/AudioVolumesDto"
+        }
+      },
+      "description": "Contains the information of a report"
+    },
+    "InvalidVerificationStatusServiceException": {
+      "properties": {
+        "cause": {
+          "$ref": "#/definitions/Throwable"
+        },
+        "code": {
+          "type": "string"
+        },
+        "developerMessage": {
+          "type": "string"
+        },
+        "localizedMessage": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "stackTrace": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StackTraceElement"
+          }
+        },
+        "suppressed": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Throwable"
+          }
+        }
+      }
+    },
+    "Map«string,double»": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "number"
+      }
+    },
+    "BalanceChangeDto": {
+      "required": [
+        "balanceAfter",
+        "balanceBefore"
+      ],
+      "properties": {
+        "balanceAfter": {
+          "type": "number",
+          "format": "double",
+          "description": "The balance after the transaction"
+        },
+        "balanceBefore": {
+          "type": "number",
+          "format": "double",
+          "description": "The balance before the transaction"
+        }
+      },
+      "description": "Represents a change to the balance after successfully adding a transaction"
+    },
+    "ApplicationNotFoundServiceException": {
+      "properties": {
+        "cause": {
+          "$ref": "#/definitions/Throwable"
+        },
+        "code": {
+          "type": "string"
+        },
+        "developerMessage": {
+          "type": "string"
+        },
+        "entity": {
+          "type": "string"
+        },
+        "localizedMessage": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "property": {
+          "type": "string"
+        },
+        "stackTrace": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StackTraceElement"
+          }
+        },
+        "suppressed": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Throwable"
+          }
+        },
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "SmsStatusDto": {
+      "required": [
+        "date",
+        "status"
+      ],
+      "properties": {
+        "date": {
+          "description": "The date that the status was reported",
+          "$ref": "#/definitions/OffsetDateTime"
+        },
+        "reason": {
+          "type": "string",
+          "description": "An extra reason for the status"
+        },
+        "status": {
+          "type": "string",
+          "description": "The status"
+        }
+      },
+      "description": "Represents a status for an sms"
+    },
+    "GroupDeleteResponseDto": {
+      "properties": {
+        "deletedContacts": {
+          "type": "boolean",
+          "description": "Defines whether the contacts of the group have been deleted or not"
+        },
+        "name": {
+          "type": "string",
+          "description": "The tag of the group that has been deleted"
+        }
+      },
+      "description": "Contains the deleted tag and whether its contacts have been deleted"
+    },
+    "ReportInfoForCountryDto": {
+      "properties": {
+        "cost": {
+          "type": "number",
+          "format": "double",
+          "description": "he total cost for the total sms of the report for the company"
+        },
+        "country": {
+          "type": "string",
+          "description": "The country for this report"
+        },
+        "mcc": {
+          "type": "string",
+          "description": "The Mcc of this report"
+        },
+        "price": {
+          "type": "number",
+          "format": "double",
+          "description": "The total price fot the total sms of the report for the customer"
+        },
+        "smsVolumes": {
+          "description": "The volumes of the sms for each state",
+          "$ref": "#/definitions/SmsVolumesDto"
+        }
+      },
+      "description": "Contains the information of a report"
+    },
+    "LookupBreakdownReportDto": {
+      "properties": {
+        "details": {
+          "type": "array",
+          "description": "The details of this report",
+          "items": {
+            "$ref": "#/definitions/LookupBreakdownReportInfoDto"
+          }
+        },
+        "totals": {
+          "description": "The totals of this report",
+          "$ref": "#/definitions/LookupBreakdownReportSummaryDto"
+        }
+      },
+      "description": "Contains the analytics for a range of HLR lookup records associated with the account id"
+    },
+    "Page«CampaignDto»": {
+      "properties": {
+        "content": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CampaignDto"
+          }
+        },
+        "first": {
+          "type": "boolean"
+        },
+        "last": {
+          "type": "boolean"
+        },
+        "number": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "numberOfElements": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "size": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "sort": {
+          "$ref": "#/definitions/Sort"
+        },
+        "totalElements": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "totalPages": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "HeaderInfoDto": {
+      "required": [
+        "headerFieldName",
+        "index",
+        "name",
+        "sampleValues"
+      ],
+      "properties": {
+        "fieldType": {
+          "type": "string",
+          "description": "The mapped type of the field",
+          "enum": [
+            "Date",
+            "Number",
+            "Text",
+            "Unknown"
+          ]
+        },
+        "headerFieldName": {
+          "type": "string",
+          "description": "The mapped name of the field"
+        },
+        "index": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The position of the field in the file"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the field"
+        },
+        "sampleValues": {
+          "type": "array",
+          "description": "The first values of the column",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "Stores information (i.e field name as exists in file, mapped field name) for a field of the uploaded file"
+    },
+    "WrongAnswerServiceException": {
+      "properties": {
+        "cause": {
+          "$ref": "#/definitions/Throwable"
+        },
+        "code": {
+          "type": "string"
+        },
+        "developerMessage": {
+          "type": "string"
+        },
+        "localizedMessage": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "stackTrace": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StackTraceElement"
+          }
+        },
+        "suppressed": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Throwable"
+          }
+        }
+      }
+    },
+    "ValidationReportDto": {
+      "required": [
+        "duplicateInFileContacts",
+        "duplicateWithExistingContacts",
+        "invalidContacts",
+        "validContacts"
+      ],
+      "properties": {
+        "duplicateInFileContacts": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The number of the duplicate(by the mobile) contacts within the file"
+        },
+        "duplicateWithExistingContacts": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The number of the duplicate(by the mobile) contacts of the file with the existing contacts"
+        },
+        "invalidContacts": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The number of the invalid contacts"
+        },
+        "validContacts": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The number of the valid contacts"
+        }
+      },
+      "description": "Contains the information about the states of the validated contacts"
+    },
+    "LanguageNotFoundServiceException": {
+      "properties": {
+        "cause": {
+          "$ref": "#/definitions/Throwable"
+        },
+        "code": {
+          "type": "string"
+        },
+        "developerMessage": {
+          "type": "string"
+        },
+        "languageCode": {
+          "type": "string"
+        },
+        "localizedMessage": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "stackTrace": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StackTraceElement"
+          }
+        },
+        "suppressed": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Throwable"
+          }
+        }
+      }
+    },
+    "TemporalUnit": {
+      "properties": {
+        "dateBased": {
+          "type": "boolean"
+        },
+        "durationEstimated": {
+          "type": "boolean"
+        },
+        "timeBased": {
+          "type": "boolean"
+        }
+      }
+    },
+    "Page«IntermediateContactDto»": {
+      "properties": {
+        "content": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/IntermediateContactDto"
+          }
+        },
+        "first": {
+          "type": "boolean"
+        },
+        "last": {
+          "type": "boolean"
+        },
+        "number": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "numberOfElements": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "size": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "sort": {
+          "$ref": "#/definitions/Sort"
+        },
+        "totalElements": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "totalPages": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "UserNotDeletedServiceException": {
+      "properties": {
+        "cause": {
+          "$ref": "#/definitions/Throwable"
+        },
+        "code": {
+          "type": "string"
+        },
+        "developerMessage": {
+          "type": "string"
+        },
+        "localizedMessage": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "stackTrace": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StackTraceElement"
+          }
+        },
+        "suppressed": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Throwable"
+          }
+        }
+      }
+    },
+    "AudioRequestDto": {
+      "required": [
+        "dialPlanId",
+        "from",
+        "name"
+      ],
+      "properties": {
+        "contacts": {
+          "type": "array",
+          "description": "The contacts of this call, must be a list with valid contact ids",
+          "items": {
+            "type": "string"
+          }
+        },
+        "dialPlanId": {
+          "type": "string",
+          "description": "The id pf the call' s dialPlan"
+        },
+        "from": {
+          "type": "string",
+          "description": "The sender id for this call"
+        },
+        "groups": {
+          "type": "array",
+          "description": "The lists of this call, must be a list with valid group names",
+          "items": {
+            "type": "string"
+          }
+        },
+        "name": {
+          "type": "string",
+          "description": "The (campaign) name for this call"
+        },
+        "respectQuietHours": {
+          "type": "boolean",
+          "description": "Indicates if the call should respect the quiet hours, default value: false"
+        },
+        "scheduledDate": {
+          "description": "The future date that the call campaign will be executed at",
+          "$ref": "#/definitions/OffsetDateTime"
+        },
+        "to": {
+          "type": "array",
+          "description": "The recipients of this call, must be a list with valid numbers (mobiles or landlines)",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "Represents a request for making an audio call"
+    },
+    "ValidateContactsDto": {
+      "required": [
+        "defaultPrefix",
+        "groups",
+        "indexedFields",
+        "uuid"
+      ],
+      "properties": {
+        "defaultPrefix": {
+          "type": "string",
+          "description": "The default country code"
+        },
+        "groups": {
+          "type": "array",
+          "description": "The names of the groups that the contacts will belong",
+          "items": {
+            "type": "string"
+          }
+        },
+        "indexedFields": {
+          "type": "object",
+          "description": "The fields names mapped to its in-file position",
+          "additionalProperties": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "uuid": {
+          "type": "string",
+          "description": "The uuid of the file upload operation"
+        }
+      },
+      "description": "Stores information to restore the file needed to validate the contacts"
+    },
+    "MeDto": {
+      "required": [
+        "userType",
+        "username"
+      ],
+      "properties": {
+        "userType": {
+          "type": "string",
+          "description": "The type of the user that is represented by the token (User, Account)"
+        },
+        "username": {
+          "type": "string",
+          "description": "The username"
+        }
+      }
+    },
+    "TwoStepReportDto": {
+      "required": [
+        "applicationId",
+        "perCountry",
+        "total",
+        "totals"
+      ],
+      "properties": {
+        "applicationId": {
+          "type": "string",
+          "description": "The id of the application"
+        },
+        "perCountry": {
+          "type": "object",
+          "description": "The total number of requests send, grouped by country and by status",
+          "additionalProperties": {
+            "$ref": "#/definitions/Map«string,long»"
+          }
+        },
+        "total": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The total number of requests send"
+        },
+        "totals": {
+          "type": "object",
+          "description": "The total number of requests send grouped by status",
+          "additionalProperties": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "description": "A report that represents the number of verification requests per statusand by country and status, send by a specific application."
+    },
+    "AuthenticationServiceException": {
+      "properties": {
+        "cause": {
+          "$ref": "#/definitions/Throwable"
+        },
+        "localizedMessage": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "stackTrace": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StackTraceElement"
+          }
+        },
+        "suppressed": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Throwable"
+          }
+        }
+      }
+    },
+    "TrialAccountServiceException": {
+      "properties": {
+        "cause": {
+          "$ref": "#/definitions/Throwable"
+        },
+        "code": {
+          "type": "string"
+        },
+        "developerMessage": {
+          "type": "string"
+        },
+        "localizedMessage": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "stackTrace": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StackTraceElement"
+          }
+        },
+        "suppressed": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Throwable"
+          }
+        }
+      }
+    },
+    "SmsTemplateDto": {
+      "required": [
+        "fallbackValues",
+        "from",
+        "name",
+        "value"
+      ],
+      "properties": {
+        "fallbackValues": {
+          "type": "object",
+          "description": "The bonus field fallback values for this message",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "from": {
+          "type": "string",
+          "description": "The senderId for this sms template"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name for this sms template"
+        },
+        "value": {
+          "type": "string",
+          "description": "The message for this sms template"
+        }
+      },
+      "description": "Represents a template for an Sms campaign"
+    },
+    "SmsAnalysisDto": {
+      "required": [
+        "bodyAnalysis",
+        "cost"
+      ],
+      "properties": {
+        "bodyAnalysis": {
+          "description": "The analysis for the body of the sms.",
+          "$ref": "#/definitions/SmsBodyAnalysisDto"
+        },
+        "cost": {
+          "type": "number",
+          "format": "double",
+          "description": "The cost of the sms."
+        }
+      },
+      "description": "Contains information for an sms message after being analyzed"
+    },
+    "VolPriceBreakdownForCountryReportDto": {
+      "properties": {
+        "countryCode": {
+          "type": "string",
+          "description": "The country's ISO code that this reports is associated"
+        },
+        "reportEntities": {
+          "type": "array",
+          "description": "A collection with each reports grouped by the interval",
+          "items": {
+            "$ref": "#/definitions/VolPriceBreakdownForCountryReportEntityDto"
+          }
+        }
+      },
+      "description": "Contains the analytics for a range of messages associated with the account id for a specific countryCode grouped by interval and the per network"
+    },
+    "OperatorInfoDto": {
+      "properties": {
+        "country": {
+          "type": "string"
+        },
+        "countryCode": {
+          "type": "string"
+        },
+        "iso": {
+          "type": "string"
+        },
+        "mcc": {
+          "type": "string"
+        },
+        "mnc": {
+          "type": "string"
+        },
+        "network": {
+          "type": "string"
+        }
+      }
+    },
+    "RegistrationNotFoundServiceException": {
+      "properties": {
+        "cause": {
+          "$ref": "#/definitions/Throwable"
+        },
+        "code": {
+          "type": "string"
+        },
+        "developerMessage": {
+          "type": "string"
+        },
+        "entity": {
+          "type": "string"
+        },
+        "localizedMessage": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "property": {
+          "type": "string"
+        },
+        "stackTrace": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StackTraceElement"
+          }
+        },
+        "suppressed": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Throwable"
+          }
+        },
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "InvitationRequestDto": {
+      "required": [
+        "friendlyName",
+        "recipientEmail",
+        "role",
+        "targetAccountId"
+      ],
+      "properties": {
+        "friendlyName": {
+          "type": "string",
+          "description": "The friendly name of the referenced user"
+        },
+        "recipientEmail": {
+          "type": "string",
+          "description": "The email address of the referenced user"
+        },
+        "role": {
+          "type": "string",
+          "description": "The specified role for referenced user"
+        },
+        "targetAccountId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The identification of the account"
+        }
+      },
+      "description": "Represents a request for a new user invitation to the account"
+    },
+    "ContactGroupDto": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the group"
+        },
+        "size": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The size of the group (number of contacts)"
+        }
+      },
+      "description": "Contains the group  name and the total count of contacts in the group"
+    },
+    "AudioVolPriceBreakdownReportDto": {
+      "properties": {
+        "details": {
+          "type": "array",
+          "description": "The details of this report",
+          "items": {
+            "$ref": "#/definitions/AudioReportInfoForCountryDto"
+          }
+        },
+        "startDateTime": {
+          "description": "The starting date and time from which this report was generated",
+          "$ref": "#/definitions/OffsetDateTime"
+        },
+        "timeGrouping": {
+          "type": "string",
+          "description": "The grouping used in this report"
+        },
+        "volumes": {
+          "description": "The volumes of the calls",
+          "$ref": "#/definitions/AudioVolumesDto"
+        }
+      },
+      "description": "Contains the analytics for a range of calls associated with the account id grouped per country"
+    },
+    "AccountDto": {
+      "required": [
+        "currency",
+        "id",
+        "userType",
+        "username"
+      ],
+      "properties": {
+        "accountType": {
+          "type": "string",
+          "description": "The financial account type, it can be either Individual or Company"
+        },
+        "address": {
+          "type": "string",
+          "description": "The address of the account"
+        },
+        "balanceNotificationSettings": {
+          "$ref": "#/definitions/BalanceNotificationSettingsDto"
+        },
+        "callCenter": {
+          "type": "string",
+          "description": "The call center of the account"
+        },
+        "city": {
+          "type": "string",
+          "description": "The city of the account"
+        },
+        "company": {
+          "type": "string",
+          "description": "The company name of the account"
+        },
+        "country": {
+          "type": "string",
+          "description": "The country of the account"
+        },
+        "currency": {
+          "type": "string",
+          "description": "The currency (code) of the account"
+        },
+        "extraContacts": {
+          "type": "array",
+          "description": "Extra contacts for the account.",
+          "items": {
+            "$ref": "#/definitions/AccountContactDto"
+          }
+        },
+        "financialContact": {
+          "description": "The account's contact information used for financial purposes",
+          "$ref": "#/definitions/AccountContactDto"
+        },
+        "financialDetails": {
+          "description": "The financial details of the account",
+          "$ref": "#/definitions/FinancialDetailsDto"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The id of the account"
+        },
+        "industry": {
+          "type": "string",
+          "description": "The industry that the account belongs"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the subaccount or the company name in case the account is Master type"
+        },
+        "streetNumber": {
+          "type": "string",
+          "description": "The address of the account"
+        },
+        "taxOffice": {
+          "type": "string",
+          "description": "The tax office of the account"
+        },
+        "technicalContact": {
+          "description": "The account's contact information used for technical support",
+          "$ref": "#/definitions/AccountContactDto"
+        },
+        "trial": {
+          "type": "boolean",
+          "description": "Indicates whether the account is trial or not"
+        },
+        "type": {
+          "type": "string",
+          "description": "The type of the account, it can be either Master or Sub"
+        },
+        "userType": {
+          "type": "string",
+          "description": "The type of the user that is represented by the token (User, Account)"
+        },
+        "username": {
+          "type": "string",
+          "description": "The username"
+        },
+        "vatId": {
+          "type": "string",
+          "description": "The vat number of the account"
+        },
+        "vatRate": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The vat rate of the account. Currently 0 or 24"
+        },
+        "zipCode": {
+          "type": "string",
+          "description": "The zip code of the account's address"
+        }
+      },
+      "description": "Represents an Account. An account is actually a company of a user. It is used for billing/financial information. When a user registers to the system a default (empty) account is assigned to him.The account's information are not required, unless the user wants to purchase credits."
+    },
+    "UserDuplicateServiceException": {
+      "properties": {
+        "cause": {
+          "$ref": "#/definitions/Throwable"
+        },
+        "code": {
+          "type": "string"
+        },
+        "developerMessage": {
+          "type": "string"
+        },
+        "entity": {
+          "type": "string"
+        },
+        "localizedMessage": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "property": {
+          "type": "string"
+        },
+        "stackTrace": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StackTraceElement"
+          }
+        },
+        "suppressed": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Throwable"
+          }
+        },
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "DialPlanAnalysisDto": {
+      "properties": {
+        "placeholder": {
+          "type": "string"
+        }
+      }
+    },
+    "UsernameNotFoundException": {
+      "properties": {
+        "cause": {
+          "$ref": "#/definitions/Throwable"
+        },
+        "localizedMessage": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "stackTrace": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StackTraceElement"
+          }
+        },
+        "suppressed": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Throwable"
+          }
+        }
+      }
+    },
+    "SmsCountryPriceTableDto": {
+      "required": [
+        "country",
+        "iso",
+        "mcc",
+        "networks"
+      ],
+      "properties": {
+        "country": {
+          "type": "string",
+          "description": "The country name"
+        },
+        "iso": {
+          "type": "string",
+          "description": "The country iso code"
+        },
+        "mcc": {
+          "type": "string",
+          "description": "The mcc"
+        },
+        "networks": {
+          "type": "array",
+          "description": "The networks for this country",
+          "items": {
+            "$ref": "#/definitions/SmsNetworkPriceDto"
+          }
+        }
+      },
+      "description": "Contains basic information about the country along with the network prices"
+    },
+    "VolPriceStatisticReportDto": {
+      "properties": {
+        "count": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The total messages count"
+        },
+        "country": {
+          "type": "string",
+          "description": "The country of this report"
+        },
+        "deliveredCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The count of the delivered messages"
+        },
+        "failedCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The count of the failed messages"
+        },
+        "mcc": {
+          "type": "string",
+          "description": "The Mcc of this report"
+        },
+        "mnc": {
+          "type": "string",
+          "description": "The Mnc of this report"
+        },
+        "operator": {
+          "type": "string",
+          "description": "The operator of this report"
+        },
+        "price": {
+          "type": "number",
+          "format": "double",
+          "description": "The total price for the total sms of this report for the customer"
+        },
+        "queuedCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The count of the queued messages"
+        },
+        "sentCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The count of the sent messages"
+        },
+        "smsCampaignId": {
+          "type": "string",
+          "description": "The campaign id of this report"
+        },
+        "startDateTime": {
+          "description": "The starting date and time from which this report was generated",
+          "$ref": "#/definitions/OffsetDateTime"
+        },
+        "timeGrouping": {
+          "type": "string",
+          "description": "The grouping used in this report"
+        },
+        "undeliveredCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The count of the undelivered messages"
+        },
+        "unsentCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The count of the insufficient balance messages"
+        }
+      },
+      "description": "Contains the analytics for a range of messages associated with the account id"
+    },
+    "TimezoneDto": {
+      "required": [
+        "code",
+        "displayValue"
+      ],
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "The code of the timezone"
+        },
+        "displayValue": {
+          "type": "string",
+          "description": "The display value of the timezone e.g. '(UTC+02:00) Europe/Athens'"
+        }
+      },
+      "description": "Represents a timezone"
+    },
+    "FieldDefinition": {
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "Date",
+            "Number",
+            "Text",
+            "Unknown"
+          ]
+        }
+      }
+    },
+    "UserDto": {
+      "required": [
+        "accounts",
+        "email",
+        "mobile",
+        "role",
+        "timeZone",
+        "userType",
+        "username"
+      ],
+      "properties": {
+        "accounts": {
+          "type": "array",
+          "description": "All the accounts that this user has access to.",
+          "items": {
+            "$ref": "#/definitions/AccountViewDto"
+          }
+        },
+        "email": {
+          "type": "string",
+          "description": "The email of the user"
+        },
+        "firstName": {
+          "type": "string",
+          "description": "The first name of the user"
+        },
+        "lastName": {
+          "type": "string",
+          "description": "The last name of the user"
+        },
+        "mobile": {
+          "type": "string",
+          "description": "The mobile of the user"
+        },
+        "role": {
+          "type": "string",
+          "description": "The role of the user"
+        },
+        "timeZone": {
+          "type": "string",
+          "description": "The timezone of the user, it has the timezone id"
+        },
+        "userType": {
+          "type": "string",
+          "description": "The type of the user that is represented by the token (User, Account)"
+        },
+        "username": {
+          "type": "string",
+          "description": "The username"
+        }
+      },
+      "description": "Represents basic information about a user"
+    },
+    "TranscodeDto": {
+      "required": [
+        "message",
+        "parts"
+      ],
+      "properties": {
+        "message": {
+          "type": "string",
+          "description": "The transcoded message of the original unicode message"
+        },
+        "parts": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The number of actual sms that will be sent"
+        }
+      },
+      "description": "Contains information for the transcoded body of an sms message"
+    },
+    "UserNotAssociatedServiceException": {
+      "properties": {
+        "cause": {
+          "$ref": "#/definitions/Throwable"
+        },
+        "code": {
+          "type": "string"
+        },
+        "developerMessage": {
+          "type": "string"
+        },
+        "localizedMessage": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "stackTrace": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StackTraceElement"
+          }
+        },
+        "suppressed": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Throwable"
+          }
+        }
+      }
+    },
+    "CurrencyDto": {
+      "required": [
+        "code",
+        "localeName",
+        "name",
+        "sign"
+      ],
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "The currency code in ISO 4217 format"
+        },
+        "localeName": {
+          "type": "string",
+          "description": "The currency name translated in its native language"
+        },
+        "name": {
+          "type": "string",
+          "description": "The currency name translated in the requested language"
+        },
+        "sign": {
+          "type": "string",
+          "description": "The currency sign"
+        }
+      },
+      "description": "Represents a currency"
+    },
+    "AudioVolPriceBreakdownForCampaignReportEntityDto": {
+      "properties": {
+        "country": {
+          "type": "string",
+          "description": "The country of this report"
+        },
+        "details": {
+          "type": "array",
+          "description": "The details of this report",
+          "items": {
+            "$ref": "#/definitions/AudioReportInfoForCountryDto"
+          }
+        },
+        "volumes": {
+          "description": "the volumes of the calls",
+          "$ref": "#/definitions/AudioVolumesDto"
+        }
+      },
+      "description": "Contains the analytics for a range of messages associated with the account id for a specific campaign"
+    },
+    "AccountNotFoundServiceException": {
+      "properties": {
+        "cause": {
+          "$ref": "#/definitions/Throwable"
+        },
+        "code": {
+          "type": "string"
+        },
+        "developerMessage": {
+          "type": "string"
+        },
+        "entity": {
+          "type": "string"
+        },
+        "localizedMessage": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "property": {
+          "type": "string"
+        },
+        "stackTrace": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StackTraceElement"
+          }
+        },
+        "suppressed": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Throwable"
+          }
+        },
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "SubAccountCreateDto": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the sub-account, must be unique amongst all subaccounts under the same master account"
+        }
+      },
+      "description": "Represents information that is needed in order to create a sub-account"
+    },
+    "ContactListAlreadyExistsServiceException": {
+      "properties": {
+        "cause": {
+          "$ref": "#/definitions/Throwable"
+        },
+        "code": {
+          "type": "string"
+        },
+        "developerMessage": {
+          "type": "string"
+        },
+        "entity": {
+          "type": "string"
+        },
+        "localizedMessage": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "property": {
+          "type": "string"
+        },
+        "stackTrace": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StackTraceElement"
+          }
+        },
+        "suppressed": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Throwable"
+          }
+        },
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "ContactDto": {
+      "required": [
+        "mobile"
+      ],
+      "properties": {
+        "blacklistedServices": {
+          "type": "array",
+          "description": "Defines all the services for which the contact has been blacklisted",
+          "items": {
+            "type": "string"
+          }
+        },
+        "country": {
+          "type": "string",
+          "description": "The Country information of the contact"
+        },
+        "email": {
+          "type": "string",
+          "description": "The e-mail address of the contact"
+        },
+        "firstName": {
+          "type": "string",
+          "description": "The first name of the contact"
+        },
+        "groups": {
+          "type": "array",
+          "description": "All contact groups that belong to this Contact",
+          "items": {
+            "type": "string"
+          }
+        },
+        "id": {
+          "type": "string",
+          "description": "The identification of the contact"
+        },
+        "labels": {
+          "type": "array",
+          "description": "Contains the contact's custom fields with their respective values",
+          "items": {
+            "$ref": "#/definitions/ContactLabelDto"
+          }
+        },
+        "lastName": {
+          "type": "string",
+          "description": "The last name of the contact"
+        },
+        "mobile": {
+          "type": "string",
+          "description": "The mobile number of the contact"
+        },
+        "vip": {
+          "type": "boolean",
+          "description": "Indicates whether the contact is treated as vip or not"
+        }
+      },
+      "description": "Represents an single contact of an account of the application"
+    },
+    "SearchDto": {
+      "required": [
+        "filters",
+        "pageNumber",
+        "pageSize"
+      ],
+      "properties": {
+        "filters": {
+          "type": "array",
+          "description": "A collection of all the filters which will be applied for the search",
+          "items": {
+            "$ref": "#/definitions/SearchFilterDto"
+          }
+        },
+        "pageNumber": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The number of the result page"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The size of the results page"
+        }
+      },
+      "description": "Contains the criteria for a search request"
+    },
+    "Sort": {},
+    "VerificationNotFoundServiceException": {
+      "properties": {
+        "cause": {
+          "$ref": "#/definitions/Throwable"
+        },
+        "code": {
+          "type": "string"
+        },
+        "developerMessage": {
+          "type": "string"
+        },
+        "entity": {
+          "type": "string"
+        },
+        "localizedMessage": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "property": {
+          "type": "string"
+        },
+        "stackTrace": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StackTraceElement"
+          }
+        },
+        "suppressed": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Throwable"
+          }
+        },
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "AudioAnalysisDto": {
+      "required": [
+        "contacts",
+        "dialPlanAnalysis",
+        "numberOfRecipients",
+        "recipientCountries",
+        "recipientsPerCountry",
+        "recipientsPerGroup",
+        "totalInGroups"
+      ],
+      "properties": {
+        "contacts": {
+          "type": "object",
+          "description": "For each contact the details (ContactRecipientInfoDto) of the contact",
+          "additionalProperties": {
+            "$ref": "#/definitions/ContactRecipientInfoDto"
+          }
+        },
+        "dialPlanAnalysis": {
+          "description": "The analysis for the dial plan.",
+          "$ref": "#/definitions/DialPlanAnalysisDto"
+        },
+        "numberOfRecipients": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The total number of recipients"
+        },
+        "recipientCountries": {
+          "type": "object",
+          "description": "For each recipient the country that the mobile belongs to (country format in ISO 3166-1 alpha-2)",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "recipientsPerCountry": {
+          "type": "object",
+          "description": "The total recipients per country (country format in ISO 3166-1 alpha-2)",
+          "additionalProperties": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "recipientsPerGroup": {
+          "type": "object",
+          "description": "For each group the number of recipients that it contains without the blacklisted contacts",
+          "additionalProperties": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "totalInGroups": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The total number of recipients in all given groups excluding the ones already specified and the blacklisted"
+        }
+      },
+      "description": "Contains information for an audio call after being analyzed"
+    },
+    "LookupBreakdownReportInfoDto": {
+      "properties": {
+        "absentCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The count of the absent HLR lookup records"
+        },
+        "activeCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The count of the active HLR lookup records"
+        },
+        "count": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The count for the HLR lookup records of this report"
+        },
+        "failedCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The count of the failed HLR lookup records"
+        },
+        "price": {
+          "type": "number",
+          "format": "double",
+          "description": "The price for the HLR lookup records of this report"
+        },
+        "queuedCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The count of the queued HLR lookup records"
+        },
+        "startDateTime": {
+          "description": "The starting date and time from which this report was generated",
+          "$ref": "#/definitions/OffsetDateTime"
+        },
+        "unknownCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The count of the unknown HLR lookup records"
+        }
+      },
+      "description": "Contains the details analytics for a range of HLR lookup records associated with the account id"
+    },
+    "ZoneOffsetTransitionRule": {
+      "properties": {
+        "dayOfMonthIndicator": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "dayOfWeek": {
+          "type": "string",
+          "enum": [
+            "MONDAY",
+            "TUESDAY",
+            "WEDNESDAY",
+            "THURSDAY",
+            "FRIDAY",
+            "SATURDAY",
+            "SUNDAY"
+          ]
+        },
+        "localTime": {
+          "$ref": "#/definitions/LocalTime"
+        },
+        "midnightEndOfDay": {
+          "type": "boolean"
+        },
+        "month": {
+          "type": "string",
+          "enum": [
+            "JANUARY",
+            "FEBRUARY",
+            "MARCH",
+            "APRIL",
+            "MAY",
+            "JUNE",
+            "JULY",
+            "AUGUST",
+            "SEPTEMBER",
+            "OCTOBER",
+            "NOVEMBER",
+            "DECEMBER"
+          ]
+        },
+        "timeDefinition": {
+          "type": "string",
+          "enum": [
+            "UTC",
+            "WALL",
+            "STANDARD"
+          ]
+        }
+      }
+    },
+    "Page«ContactDto»": {
+      "properties": {
+        "content": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ContactDto"
+          }
+        },
+        "first": {
+          "type": "boolean"
+        },
+        "last": {
+          "type": "boolean"
+        },
+        "number": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "numberOfElements": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "size": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "sort": {
+          "$ref": "#/definitions/Sort"
+        },
+        "totalElements": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "totalPages": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "OAuth2RefreshToken": {
+      "properties": {
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "Character": {},
+    "CountryDto": {
+      "required": [
+        "code",
+        "isoA3Code",
+        "localeName",
+        "name"
+      ],
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "The country code in ISO 3166-1 alpha-2 format"
+        },
+        "isoA3Code": {
+          "type": "string",
+          "description": "The code of the country in ISO 3166-1 alpha-2 format"
+        },
+        "localeName": {
+          "type": "string",
+          "description": "The country name translated in its native language"
+        },
+        "name": {
+          "type": "string",
+          "description": "The country name translated in the requested language"
+        }
+      },
+      "description": "Represents a country"
+    },
+    "FormMessageDto": {
+      "properties": {
+        "email": {
+          "type": "string",
+          "description": "The email provided by the user"
+        },
+        "id": {
+          "type": "string",
+          "description": "The identification of the form message"
+        },
+        "message": {
+          "type": "string",
+          "description": "The actual message that will be sent"
+        },
+        "subject": {
+          "type": "string",
+          "description": "The subject of the form message"
+        },
+        "target": {
+          "type": "string",
+          "description": "The target department that the user wants to communicate with",
+          "enum": [
+            "Sales",
+            "Support",
+            "Accounting"
+          ]
+        },
+        "username": {
+          "type": "string",
+          "description": "The username provided by the user"
+        }
+      },
+      "description": "Represents the form message data that an account user will send"
+    },
+    "Duration": {
+      "properties": {
+        "nano": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "negative": {
+          "type": "boolean"
+        },
+        "seconds": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "units": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TemporalUnit"
+          }
+        },
+        "zero": {
+          "type": "boolean"
+        }
+      }
+    },
+    "FileAcceptedResponseDto": {
+      "required": [
+        "filePreview",
+        "uuid"
+      ],
+      "properties": {
+        "filePreview": {
+          "description": "The basic information of an uploaded file (i.e delimiter, field names, sample values)",
+          "$ref": "#/definitions/FileBaseInfoDto"
+        },
+        "uuid": {
+          "type": "string",
+          "description": "The UUID of the file operation"
+        }
+      },
+      "description": "Represents a response when an uploaded file has been accepted"
+    },
+    "SmsCampaignDto": {
+      "required": [
+        "body",
+        "contacts",
+        "from",
+        "groups",
+        "smsAnalysis",
+        "to",
+        "trackingId",
+        "type"
+      ],
+      "properties": {
+        "body": {
+          "type": "string",
+          "description": "The message"
+        },
+        "callback": {
+          "description": "Defines the notification callback information for an individual message progress of the SMS campaign.",
+          "$ref": "#/definitions/CallbackInfoDto"
+        },
+        "campaignCallback": {
+          "description": "Defines the notification callback information for updates about the SMS campaign progress.",
+          "$ref": "#/definitions/CallbackInfoDto"
+        },
+        "campaignName": {
+          "type": "string",
+          "description": "The name of the campaign"
+        },
+        "contacts": {
+          "type": "array",
+          "description": "The contacts",
+          "items": {
+            "type": "string"
+          }
+        },
+        "cost": {
+          "type": "number",
+          "format": "double",
+          "description": "The cost of the campaign. If the campaign is running then the cost is constantly updated when a new sms is sent"
+        },
+        "createdAt": {
+          "description": "The time the campaign was created",
+          "$ref": "#/definitions/OffsetDateTime"
+        },
+        "endedAt": {
+          "description": "The time the campaign was processed and all messages left from Routee.",
+          "$ref": "#/definitions/OffsetDateTime"
+        },
+        "fallbackValues": {
+          "type": "object",
+          "description": "Defines the default values when the sms campaign has bonus fields, in case a contact does not contain any of these fields",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "flash": {
+          "type": "boolean",
+          "description": "Indicates if the sms is a flash sms"
+        },
+        "from": {
+          "type": "string",
+          "description": "The sender id"
+        },
+        "groups": {
+          "type": "array",
+          "description": "The lists",
+          "items": {
+            "type": "string"
+          }
+        },
+        "reminder": {
+          "description": "Defines the recipients that will receive a test sms before and/or after the actual sms will be send",
+          "$ref": "#/definitions/SmsTestCampaignDto"
+        },
+        "respectQuietHours": {
+          "type": "boolean",
+          "description": "Indicates if the sms should respects the quiet hours, default value: false"
+        },
+        "scheduledDate": {
+          "description": "The time the campaign was scheduled to run",
+          "$ref": "#/definitions/OffsetDateTime"
+        },
+        "smsAnalysis": {
+          "description": "The analysis data for this sms",
+          "$ref": "#/definitions/SmsCampaignAnalysisDto"
+        },
+        "state": {
+          "type": "string",
+          "description": "The status of the campaign"
+        },
+        "statuses": {
+          "type": "object",
+          "description": "Defines the number of sms per message status",
+          "additionalProperties": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "to": {
+          "type": "array",
+          "description": "The recipient",
+          "items": {
+            "type": "string"
+          }
+        },
+        "totalMessages": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The actual sms messages that will be sent"
+        },
+        "trackingId": {
+          "type": "string",
+          "description": "The tracking number of the campaign"
+        },
+        "type": {
+          "type": "string",
+          "description": "The service type of the campaign"
+        }
+      },
+      "description": "Represents a status for an Sms campaign"
+    },
+    "VolPriceBreakdownReportDto": {
+      "properties": {
+        "details": {
+          "type": "array",
+          "description": "The details of this report",
+          "items": {
+            "$ref": "#/definitions/ReportInfoForCountryDto"
+          }
+        },
+        "price": {
+          "type": "number",
+          "format": "double",
+          "description": "The total price for the total sms of the report for the customer"
+        },
+        "smsVolumes": {
+          "description": "The volumes of the sms",
+          "$ref": "#/definitions/SmsVolumesDto"
+        },
+        "startDateTime": {
+          "description": "The starting date and time from which this report was generated",
+          "$ref": "#/definitions/OffsetDateTime"
+        },
+        "timeGrouping": {
+          "type": "string",
+          "description": "The grouping used in this report"
+        }
+      },
+      "description": "Contains the analytics for a range of messages associated with the account id grouped per country"
+    },
+    "WordNotFoundServiceException": {
+      "properties": {
+        "cause": {
+          "$ref": "#/definitions/Throwable"
+        },
+        "code": {
+          "type": "string"
+        },
+        "developerMessage": {
+          "type": "string"
+        },
+        "languageCode": {
+          "type": "string"
+        },
+        "localizedMessage": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "stackTrace": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StackTraceElement"
+          }
+        },
+        "suppressed": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Throwable"
+          }
+        },
+        "type": {
+          "type": "string"
+        },
+        "word": {
+          "type": "string"
+        }
+      }
+    },
+    "InvalidContactsServiceException": {
+      "properties": {
+        "cause": {
+          "$ref": "#/definitions/Throwable"
+        },
+        "code": {
+          "type": "string"
+        },
+        "developerMessage": {
+          "type": "string"
+        },
+        "localizedMessage": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "rejectedContacts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "stackTrace": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StackTraceElement"
+          }
+        },
+        "suppressed": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Throwable"
+          }
+        }
+      }
+    },
+    "Map«string,long»": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "integer",
+        "format": "int64"
+      }
+    },
+    "AccountAndUsersDto": {
+      "required": [
+        "id",
+        "invitations",
+        "numOfUsers",
+        "type",
+        "username",
+        "users"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The id of the account"
+        },
+        "invitations": {
+          "type": "array",
+          "description": "The pending invitations for the account",
+          "items": {
+            "$ref": "#/definitions/InvitationDto"
+          }
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the subaccount or the company name in case the account is Master type"
+        },
+        "numOfUsers": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The total number of users the account has"
+        },
+        "trial": {
+          "type": "boolean",
+          "description": "Indicates whether the account is trial or not"
+        },
+        "type": {
+          "type": "string",
+          "description": "The type of the account, it can be either Master or Sub"
+        },
+        "username": {
+          "type": "string",
+          "description": "The username"
+        },
+        "users": {
+          "type": "array",
+          "description": "The users of the account",
+          "items": {
+            "$ref": "#/definitions/UserViewDto"
+          }
+        }
+      },
+      "description": "Basic information about an Account along with all its users."
+    },
+    "SmsVolumesDto": {
+      "properties": {
+        "count": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The total messages count"
+        },
+        "deliveredCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The count of the delivered messages"
+        },
+        "failedCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The count of the failed messages"
+        },
+        "queuedCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The count of the queuedCount messages"
+        },
+        "sentCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The count of the sent messages"
+        },
+        "undeliveredCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The count of the undelivered messages"
+        },
+        "unsentCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The count of the insufficient balance messages"
+        }
+      },
+      "description": "Contains the volumes of the sms for each state"
+    },
+    "TypeNotFoundServiceException": {
+      "properties": {
+        "cause": {
+          "$ref": "#/definitions/Throwable"
+        },
+        "code": {
+          "type": "string"
+        },
+        "developerMessage": {
+          "type": "string"
+        },
+        "languageCode": {
+          "type": "string"
+        },
+        "localizedMessage": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "stackTrace": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StackTraceElement"
+          }
+        },
+        "suppressed": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Throwable"
+          }
+        },
+        "type": {
+          "type": "string"
+        }
+      }
+    },
+    "FieldDefinitionAlreadyExistsServiceException": {
+      "properties": {
+        "cause": {
+          "$ref": "#/definitions/Throwable"
+        },
+        "code": {
+          "type": "string"
+        },
+        "developerMessage": {
+          "type": "string"
+        },
+        "duplicateFieldDefinitions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FieldDefinition"
+          }
+        },
+        "entity": {
+          "type": "string"
+        },
+        "localizedMessage": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "property": {
+          "type": "string"
+        },
+        "stackTrace": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StackTraceElement"
+          }
+        },
+        "suppressed": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Throwable"
+          }
+        },
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "DuplicateCustomLabelNameServiceException": {
+      "properties": {
+        "cause": {
+          "$ref": "#/definitions/Throwable"
+        },
+        "code": {
+          "type": "string"
+        },
+        "developerMessage": {
+          "type": "string"
+        },
+        "localizedMessage": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "stackTrace": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StackTraceElement"
+          }
+        },
+        "suppressed": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Throwable"
+          }
+        }
+      }
+    },
+    "UsersInvitationsDto": {
+      "properties": {
+        "invitations": {
+          "type": "array",
+          "description": "The invitations that are pending for the requested account",
+          "items": {
+            "$ref": "#/definitions/InvitationDto"
+          }
+        },
+        "users": {
+          "type": "array",
+          "description": "The users that belong to the requested account",
+          "items": {
+            "$ref": "#/definitions/UserViewDto"
+          }
+        }
+      },
+      "description": "Represents the available users of an account"
+    },
+    "Map«string,ContactRecipientInfoDto»": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/ContactRecipientInfoDto"
+      }
+    },
+    "OffsetDateTime": {
+      "properties": {
+        "dayOfMonth": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "dayOfWeek": {
+          "type": "string",
+          "enum": [
+            "MONDAY",
+            "TUESDAY",
+            "WEDNESDAY",
+            "THURSDAY",
+            "FRIDAY",
+            "SATURDAY",
+            "SUNDAY"
+          ]
+        },
+        "dayOfYear": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "hour": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "minute": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "month": {
+          "type": "string",
+          "enum": [
+            "JANUARY",
+            "FEBRUARY",
+            "MARCH",
+            "APRIL",
+            "MAY",
+            "JUNE",
+            "JULY",
+            "AUGUST",
+            "SEPTEMBER",
+            "OCTOBER",
+            "NOVEMBER",
+            "DECEMBER"
+          ]
+        },
+        "monthValue": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "nano": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "offset": {
+          "$ref": "#/definitions/ZoneOffset"
+        },
+        "second": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "year": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "SameUserServiceException": {
+      "properties": {
+        "cause": {
+          "$ref": "#/definitions/Throwable"
+        },
+        "code": {
+          "type": "string"
+        },
+        "developerMessage": {
+          "type": "string"
+        },
+        "localizedMessage": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "stackTrace": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StackTraceElement"
+          }
+        },
+        "suppressed": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Throwable"
+          }
+        }
+      }
+    },
+    "Throwable": {
+      "properties": {
+        "localizedMessage": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "stackTrace": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StackTraceElement"
+          }
+        },
+        "suppressed": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Throwable"
+          }
+        }
+      }
+    },
+    "File": {
+      "properties": {
+        "absolute": {
+          "type": "boolean"
+        },
+        "absolutePath": {
+          "type": "string"
+        },
+        "canonicalPath": {
+          "type": "string"
+        },
+        "directory": {
+          "type": "boolean"
+        },
+        "file": {
+          "type": "boolean"
+        },
+        "freeSpace": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "hidden": {
+          "type": "boolean"
+        },
+        "name": {
+          "type": "string"
+        },
+        "parent": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        },
+        "totalSpace": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "usableSpace": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "Page«SmsTrackingDto»": {
+      "properties": {
+        "content": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SmsTrackingDto"
+          }
+        },
+        "first": {
+          "type": "boolean"
+        },
+        "last": {
+          "type": "boolean"
+        },
+        "number": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "numberOfElements": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "size": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "sort": {
+          "$ref": "#/definitions/Sort"
+        },
+        "totalElements": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "totalPages": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "NumericUpdateResultDto": {
+      "properties": {
+        "updated": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "BankDto": {
+      "required": [
+        "address",
+        "country",
+        "currency",
+        "iban",
+        "minAmount",
+        "name",
+        "number",
+        "swiftCode"
+      ],
+      "properties": {
+        "address": {
+          "type": "string",
+          "description": "The address of the bank"
+        },
+        "country": {
+          "type": "string",
+          "description": "The country of the bank"
+        },
+        "currency": {
+          "type": "string",
+          "description": "The currency of the bank"
+        },
+        "iban": {
+          "type": "string",
+          "description": "The iban of the bank"
+        },
+        "minAmount": {
+          "type": "number",
+          "format": "double",
+          "description": "The min amount to transfer money to this bank"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the bank"
+        },
+        "number": {
+          "type": "string",
+          "description": "The number of the bank"
+        },
+        "swiftCode": {
+          "type": "string",
+          "description": "The swift code of the bank"
+        }
+      },
+      "description": "Represents a bank"
+    },
+    "TransactionDto": {
+      "required": [
+        "actions",
+        "amount",
+        "balanceAfter",
+        "balanceBefore",
+        "date",
+        "id",
+        "source",
+        "status",
+        "transactionType"
+      ],
+      "properties": {
+        "actions": {
+          "type": "array",
+          "description": "All the actions of this transaction",
+          "items": {
+            "$ref": "#/definitions/TransactionActionDto"
+          }
+        },
+        "amount": {
+          "type": "number",
+          "format": "double",
+          "description": "The amount"
+        },
+        "balanceAfter": {
+          "type": "number",
+          "format": "double",
+          "description": "The amount of balance that the account had after the processing of the transaction"
+        },
+        "balanceBefore": {
+          "type": "number",
+          "format": "double",
+          "description": "The amount of balance that the account had before the transaction was processed"
+        },
+        "date": {
+          "description": "The date that the transaction was created",
+          "$ref": "#/definitions/OffsetDateTime"
+        },
+        "id": {
+          "type": "string",
+          "description": "The id of the transaction"
+        },
+        "source": {
+          "type": "string",
+          "description": "The source that initiated this transaction (e.g. Paypal)"
+        },
+        "status": {
+          "type": "string",
+          "description": "The status of the transaction (PendingNotCredited, Pending, Completed)"
+        },
+        "transactionType": {
+          "type": "string",
+          "description": "The type of the transaction (always TopUp)"
+        }
+      },
+      "description": "Represents a Master Account transaction"
+    },
+    "Page«AudioTrackingDto»": {
+      "properties": {
+        "content": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AudioTrackingDto"
+          }
+        },
+        "first": {
+          "type": "boolean"
+        },
+        "last": {
+          "type": "boolean"
+        },
+        "number": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "numberOfElements": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "size": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "sort": {
+          "$ref": "#/definitions/Sort"
+        },
+        "totalElements": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "totalPages": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "PriceTableDto": {
+      "required": [
+        "currency",
+        "lookup",
+        "sms",
+        "twoStep"
+      ],
+      "properties": {
+        "currency": {
+          "description": "The currency of all the prices",
+          "$ref": "#/definitions/CurrencyDto"
+        },
+        "lookup": {
+          "type": "object",
+          "description": "The price list for lookup service",
+          "additionalProperties": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "sms": {
+          "type": "array",
+          "description": "The price list for sms service",
+          "items": {
+            "$ref": "#/definitions/SmsCountryPriceTableDto"
+          }
+        },
+        "twoStep": {
+          "type": "object",
+          "description": "The price list for 2step service",
+          "additionalProperties": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "description": "Contains a price list for each service"
+    },
+    "SmsCampaignAnalysisDto": {
+      "required": [
+        "bodyAnalysis",
+        "contacts",
+        "numberOfRecipients",
+        "recipientCountries",
+        "recipientsPerCountry",
+        "recipientsPerGroup",
+        "totalInGroups"
+      ],
+      "properties": {
+        "bodyAnalysis": {
+          "description": "The analysis for the body of the sms.",
+          "$ref": "#/definitions/SmsBodyAnalysisDto"
+        },
+        "contacts": {
+          "type": "object",
+          "description": "For each contact the details (ContactRecipientInfoDto) of the contact",
+          "additionalProperties": {
+            "$ref": "#/definitions/ContactRecipientInfoDto"
+          }
+        },
+        "numberOfRecipients": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The total number of recipients"
+        },
+        "recipientCountries": {
+          "type": "object",
+          "description": "For each recipient the country that the mobile belongs to (country format in ISO 3166-1 alpha-2)",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "recipientsPerCountry": {
+          "type": "object",
+          "description": "The total recipients per country (country format in ISO 3166-1 alpha-2)",
+          "additionalProperties": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "recipientsPerGroup": {
+          "type": "object",
+          "description": "For each group the number of recipients that it contains without the blacklisted contacts",
+          "additionalProperties": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "totalInGroups": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The total number of recipients in all given lists excluding the ones already specified and the blacklisted"
+        }
+      },
+      "description": "Contains information for an sms campaign after being analyzed"
+    },
+    "VerificationStatusDto": {
+      "required": [
+        "status",
+        "trackingId",
+        "updatedAt"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "description": "The status of the verification. \nPending: When the verification is created and is waiting for a confirmation, \nVerified: A correct answer was provided, \nCancelled: The verification was cancelled,\nExpired: The verification is expired,\nFailed: A wrong answer was provided"
+        },
+        "trackingId": {
+          "type": "string",
+          "description": "The tracking id "
+        },
+        "updatedAt": {
+          "description": "The date that this verification was update",
+          "$ref": "#/definitions/OffsetDateTime"
+        }
+      },
+      "description": "Represents status information about a verification request"
+    },
+    "SearchFilterDto": {
+      "required": [
+        "fieldName",
+        "searchTerm"
+      ],
+      "properties": {
+        "fieldName": {
+          "type": "string",
+          "description": "Defines the name of the field for this filter"
+        },
+        "searchOperator": {
+          "type": "string",
+          "description": "Defines the search operator to be used for the search. Examples: is, is_not, contains, starts_with, ends_with"
+        },
+        "searchTerm": {
+          "type": "object",
+          "description": "Defines the search term to be used for the search"
+        }
+      },
+      "description": "Contains the field and term information for a search filter"
+    },
+    "Page«ApplicationDto»": {
+      "properties": {
+        "content": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ApplicationDto"
+          }
+        },
+        "first": {
+          "type": "boolean"
+        },
+        "last": {
+          "type": "boolean"
+        },
+        "number": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "numberOfElements": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "size": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "sort": {
+          "$ref": "#/definitions/Sort"
+        },
+        "totalElements": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "totalPages": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "ContactNotFoundServiceException": {
+      "properties": {
+        "cause": {
+          "$ref": "#/definitions/Throwable"
+        },
+        "code": {
+          "type": "string"
+        },
+        "developerMessage": {
+          "type": "string"
+        },
+        "entity": {
+          "type": "string"
+        },
+        "localizedMessage": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "property": {
+          "type": "string"
+        },
+        "stackTrace": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StackTraceElement"
+          }
+        },
+        "suppressed": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Throwable"
+          }
+        },
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "AudioVolPriceBreakdownForCampaignReportDto": {
+      "properties": {
+        "campaignId": {
+          "type": "string",
+          "description": "The campaign id that this reports is associated"
+        },
+        "reportEntities": {
+          "type": "array",
+          "description": "A collection with each reports grouped by country",
+          "items": {
+            "$ref": "#/definitions/AudioVolPriceBreakdownForCampaignReportEntityDto"
+          }
+        }
+      },
+      "description": "Contains the analytics for a range of messages associated with the account id for a specific campaign grouped by country"
+    },
+    "ZoneOffset": {
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "rules": {
+          "$ref": "#/definitions/ZoneRules"
+        },
+        "totalSeconds": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "SecurityMessageOptionDto": {
+      "properties": {
+        "lifetimeInSeconds": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Indicates the number of seconds that the verification will be valid, when that time passes the user will not be able to confirm the request"
+        },
+        "maxRetries": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The number of times the user is allowed to enter a wrong answer before the verification becomes invalid"
+        },
+        "type": {
+          "type": "string"
+        }
+      },
+      "description": "Options for the security message"
+    },
+    "DialPlanDto": {
+      "properties": {
+        "command": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CommandDto"
+          }
+        }
+      }
+    },
+    "ValidationServiceException": {
+      "properties": {
+        "cause": {
+          "$ref": "#/definitions/Throwable"
+        },
+        "code": {
+          "type": "string"
+        },
+        "developerMessage": {
+          "type": "string"
+        },
+        "entity": {
+          "type": "string"
+        },
+        "localizedMessage": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "properties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "stackTrace": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StackTraceElement"
+          }
+        },
+        "suppressed": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Throwable"
+          }
+        }
+      }
+    },
+    "CampaignSmsRequestDto": {
+      "required": [
+        "body",
+        "campaignName",
+        "from"
+      ],
+      "properties": {
+        "body": {
+          "type": "string",
+          "description": "The message of the sms"
+        },
+        "callback": {
+          "description": "Defines the notification callback information for an individual message progress of the SMS campaign.",
+          "$ref": "#/definitions/CallbackInfoDto"
+        },
+        "campaignCallback": {
+          "description": "Defines the notification callback information for updates about the SMS campaign progress.",
+          "$ref": "#/definitions/CallbackInfoDto"
+        },
+        "campaignName": {
+          "type": "string",
+          "description": "The (campaign) name for this sms"
+        },
+        "contacts": {
+          "type": "array",
+          "description": "The contacts of this sms, must be a list with valid contact ids",
+          "items": {
+            "type": "string"
+          }
+        },
+        "fallbackValues": {
+          "type": "object",
+          "description": "Defines the default values when the sms campaign has bonus fields, in case a contact does not contain any of these fields",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "flash": {
+          "type": "boolean",
+          "description": "Indicates if the sms is a flash sms, default value: false"
+        },
+        "from": {
+          "type": "string",
+          "description": "The sender id for this sms"
+        },
+        "groups": {
+          "type": "array",
+          "description": "The lists of this sms, must be a list with valid group names",
+          "items": {
+            "type": "string"
+          }
+        },
+        "reminder": {
+          "description": "Defines the recipients that will receive a test sms before and/or after the actual sms will be send",
+          "$ref": "#/definitions/SmsTestCampaignDto"
+        },
+        "respectQuietHours": {
+          "type": "boolean",
+          "description": "Indicates if the sms should respect the quiet hours, default value: false"
+        },
+        "scheduledDate": {
+          "description": "The future date that the sms campaign will be executed at",
+          "$ref": "#/definitions/OffsetDateTime"
+        },
+        "to": {
+          "type": "array",
+          "description": "The recipients of this sms, must be a list with valid mobile numbers starting with + and the country code",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "Represents a request for sending an sms campaign"
+    },
+    "FinancialDetailsDto": {
+      "properties": {
+        "address": {
+          "type": "string",
+          "description": "The address of the account used for financial purposes"
+        },
+        "callCenter": {
+          "type": "string",
+          "description": "The call center of the account used for financial purposes"
+        },
+        "city": {
+          "type": "string",
+          "description": "The city of the account used for financial purposes"
+        },
+        "company": {
+          "type": "string",
+          "description": "The company name of the account used for financial purposes"
+        },
+        "country": {
+          "type": "string",
+          "description": "The country of the account used for financial purposes"
+        },
+        "industry": {
+          "type": "string",
+          "description": "The industry that the account belongs used for financial purposes"
+        },
+        "streetNumber": {
+          "type": "string",
+          "description": "The address of the account used for financial purposes"
+        },
+        "taxOffice": {
+          "type": "string",
+          "description": "The tax office of the account used for financial purposes"
+        },
+        "vatId": {
+          "type": "string",
+          "description": "The vat number of the account used for financial purposes"
+        },
+        "vatRate": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The vat rate of the account. Currently 0 or 24"
+        },
+        "zipCode": {
+          "type": "string",
+          "description": "The zip code of the account's address used for financial details"
+        }
+      },
+      "description": "Represents the Financial Details of an Account"
+    },
+    "SmsTestCampaignDto": {
+      "required": [
+        "to"
+      ],
+      "properties": {
+        "minutesAfter": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The minutes after the scheduled date (that the sms will be send) that the test sms will be send"
+        },
+        "minutesBefore": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The minutes before the scheduled date (that the sms will be send) that the test sms will be send"
+        },
+        "to": {
+          "type": "array",
+          "description": "The recipients of this sms that will get a test sms before and/or after the campaign will start. Must be a list with valid mobile numbers starting with + and the country code",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "Represents a test sms that will be send before and/or after the actual sms"
+    },
+    "FileBaseInfoDto": {
+      "required": [
+        "delimiter",
+        "headers"
+      ],
+      "properties": {
+        "countryCodeMap": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "delimiter": {
+          "type": "string",
+          "description": "The delimiter used to distinct the fields in the uploaded file"
+        },
+        "headers": {
+          "type": "array",
+          "description": "A collection that stores information (i.e field name as exists in file, mapped field name) for each field of the uploaded file",
+          "items": {
+            "$ref": "#/definitions/HeaderInfoDto"
+          }
+        }
+      },
+      "description": "Represents the basic information of an uploaded file (i.e delimiter, field names, sample values)"
+    },
+    "UserRegisterDto": {
+      "required": [
+        "email",
+        "password",
+        "recaptchaResponse",
+        "username"
+      ],
+      "properties": {
+        "email": {
+          "type": "string",
+          "description": "The email, must be a valid email"
+        },
+        "password": {
+          "type": "string",
+          "description": "The password to set for the user in plain text"
+        },
+        "recaptchaResponse": {
+          "type": "string",
+          "description": "The recaptcha response, it will be checked if it is valid"
+        },
+        "username": {
+          "type": "string",
+          "description": "The username"
+        }
+      },
+      "description": "Represents information that is needed in order for a user to register"
+    },
+    "ZoneOffsetTransition": {
+      "properties": {
+        "dateTimeAfter": {
+          "type": "string"
+        },
+        "dateTimeBefore": {
+          "type": "string"
+        },
+        "duration": {
+          "$ref": "#/definitions/Duration"
+        },
+        "gap": {
+          "type": "boolean"
+        },
+        "instant": {
+          "$ref": "#/definitions/Instant"
+        },
+        "overlap": {
+          "type": "boolean"
+        }
+      }
+    },
+    "ServiceNotSupportedServiceException": {
+      "properties": {
+        "cause": {
+          "$ref": "#/definitions/Throwable"
+        },
+        "code": {
+          "type": "string"
+        },
+        "developerMessage": {
+          "type": "string"
+        },
+        "localizedMessage": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "stackTrace": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StackTraceElement"
+          }
+        },
+        "suppressed": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Throwable"
+          }
+        }
+      }
+    },
+    "AudioFileInfoDto": {
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "size": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "uuid": {
+          "type": "string"
+        }
+      },
+      "description": "Represents a basic information of an uploaded audio file"
+    },
+    "ContactCustomField": {
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "Date",
+            "Number",
+            "Text",
+            "Unknown"
+          ]
+        },
+        "value": {
+          "type": "object"
+        }
+      }
+    },
+    "ContactsLimitExceededServiceException": {
+      "properties": {
+        "cause": {
+          "$ref": "#/definitions/Throwable"
+        },
+        "code": {
+          "type": "string"
+        },
+        "developerMessage": {
+          "type": "string"
+        },
+        "localizedMessage": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "stackTrace": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StackTraceElement"
+          }
+        },
+        "suppressed": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Throwable"
+          }
+        }
+      }
+    },
+    "SenderOptionDto": {
+      "properties": {
+        "method": {
+          "type": "string"
+        }
+      },
+      "description": "Options for the sender"
+    },
+    "InvalidCustomFieldsServiceException": {
+      "properties": {
+        "cause": {
+          "$ref": "#/definitions/Throwable"
+        },
+        "code": {
+          "type": "string"
+        },
+        "developerMessage": {
+          "type": "string"
+        },
+        "localizedMessage": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "rejectedFields": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ContactCustomField"
+          }
+        },
+        "stackTrace": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StackTraceElement"
+          }
+        },
+        "suppressed": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Throwable"
+          }
+        }
+      }
+    },
+    "ContactMobileAlreadyExistsServiceException": {
+      "properties": {
+        "cause": {
+          "$ref": "#/definitions/Throwable"
+        },
+        "code": {
+          "type": "string"
+        },
+        "developerMessage": {
+          "type": "string"
+        },
+        "entity": {
+          "type": "string"
+        },
+        "localizedMessage": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "property": {
+          "type": "string"
+        },
+        "stackTrace": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StackTraceElement"
+          }
+        },
+        "suppressed": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Throwable"
+          }
+        },
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "VolPriceBreakdownForCampaignReportEntityDto": {
+      "properties": {
+        "country": {
+          "type": "string",
+          "description": "The country of this report"
+        },
+        "details": {
+          "type": "array",
+          "description": "The details of this report",
+          "items": {
+            "$ref": "#/definitions/ReportInfoForNetworkDto"
+          }
+        },
+        "mcc": {
+          "type": "string",
+          "description": "The mcc of this report"
+        },
+        "price": {
+          "type": "number",
+          "format": "double",
+          "description": "The total price fot the total sms of the report for the customer"
+        },
+        "smsVolumes": {
+          "description": "the volumes of the sms",
+          "$ref": "#/definitions/SmsVolumesDto"
+        }
+      },
+      "description": "Contains the analytics for a range of messages associated with the account id for a specific campaign"
+    },
+    "VerificationDto": {
+      "required": [
+        "recipient"
+      ],
+      "properties": {
+        "arguments": {
+          "type": "object",
+          "description": "A list of arguments for the template message.For example, if the template message contains an @@name and a name:john is send as an argument the @@name will be replaced with john",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "recipient": {
+          "type": "string",
+          "description": "The recipient to send the sms message to (must be a valid phone number)"
+        },
+        "securityMessageOption": {
+          "$ref": "#/definitions/SecurityMessageOptionDto"
+        },
+        "senderOption": {
+          "$ref": "#/definitions/SenderOptionDto"
+        },
+        "template": {
+          "type": "string",
+          "description": "The template to send to the user, if not provided the appropriate template from the settings will be send. The template must contain the @@pin that will be replaced by the generated code"
+        },
+        "templateCountry": {
+          "type": "string",
+          "description": "The country that will be used to select the appropriate template (if a template wasn't specified in this request).If not provided the country will be exported from the recipient mobile number"
+        }
+      },
+      "description": "A verification request. When send it will initiate the two step verification process"
+    },
+    "InputStream": {},
+    "PrimaryApplicationServiceException": {
+      "properties": {
+        "cause": {
+          "$ref": "#/definitions/Throwable"
+        },
+        "code": {
+          "type": "string"
+        },
+        "developerMessage": {
+          "type": "string"
+        },
+        "localizedMessage": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "stackTrace": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StackTraceElement"
+          }
+        },
+        "suppressed": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Throwable"
+          }
+        }
+      }
+    },
+    "BalanceDto": {
+      "required": [
+        "balance",
+        "currency"
+      ],
+      "properties": {
+        "balance": {
+          "type": "number",
+          "format": "double",
+          "description": "The balance"
+        },
+        "currency": {
+          "description": "The currency",
+          "$ref": "#/definitions/CurrencyDto"
+        }
+      },
+      "description": "Represents the balance of an Account"
+    },
+    "IntermediateContactDto": {
+      "properties": {
+        "originalLine": {
+          "type": "string",
+          "description": "The first name of the contact"
+        }
+      },
+      "description": "Represents an single contact corresponding to a line of the uploaded file"
+    },
+    "InvalidDateRangeException": {
+      "properties": {
+        "cause": {
+          "$ref": "#/definitions/Throwable"
+        },
+        "code": {
+          "type": "string"
+        },
+        "developerMessage": {
+          "type": "string"
+        },
+        "localizedMessage": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "stackTrace": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StackTraceElement"
+          }
+        },
+        "suppressed": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Throwable"
+          }
+        }
+      }
+    },
+    "AudioVolPriceBreakdownForCountryReportEntityDto": {
+      "properties": {
+        "details": {
+          "type": "array",
+          "description": "The details of this report",
+          "items": {
+            "$ref": "#/definitions/AudioReportInfoForCountryDto"
+          }
+        },
+        "startDateTime": {
+          "description": "The starting date and time from which this report was generated",
+          "$ref": "#/definitions/OffsetDateTime"
+        },
+        "timeGrouping": {
+          "type": "string",
+          "description": "The grouping used in this report"
+        },
+        "volumes": {
+          "description": "the volumes of the calls",
+          "$ref": "#/definitions/AudioVolumesDto"
+        }
+      },
+      "description": "Contains the analytics for a range of calls associated with the account id for a specific country"
+    },
+    "ContactLabelDto": {
+      "required": [
+        "name",
+        "type",
+        "value"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the custom field"
+        },
+        "type": {
+          "type": "string",
+          "description": "The type of the custom field. Supported types are : Text, Date or Number"
+        },
+        "value": {
+          "type": "object",
+          "description": "The value of the custom field"
+        }
+      },
+      "description": "Contains the name, the value and the type of a contact's custom field."
+    },
+    "FieldDefinitionNotFoundServiceException": {
+      "properties": {
+        "cause": {
+          "$ref": "#/definitions/Throwable"
+        },
+        "code": {
+          "type": "string"
+        },
+        "developerMessage": {
+          "type": "string"
+        },
+        "entity": {
+          "type": "string"
+        },
+        "localizedMessage": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "notFoundFieldDefinitions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FieldDefinition"
+          }
+        },
+        "property": {
+          "type": "string"
+        },
+        "stackTrace": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StackTraceElement"
+          }
+        },
+        "suppressed": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Throwable"
+          }
+        },
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "UserViewDto": {
+      "required": [
+        "email",
+        "mobile",
+        "role",
+        "timeZone",
+        "userType",
+        "username"
+      ],
+      "properties": {
+        "email": {
+          "type": "string",
+          "description": "The email of the user"
+        },
+        "firstName": {
+          "type": "string",
+          "description": "The first name of the user"
+        },
+        "lastName": {
+          "type": "string",
+          "description": "The last name of the user"
+        },
+        "mobile": {
+          "type": "string",
+          "description": "The mobile of the user"
+        },
+        "role": {
+          "type": "string",
+          "description": "The role of the user"
+        },
+        "timeZone": {
+          "type": "string",
+          "description": "The timezone of the user, it has the timezone id"
+        },
+        "userType": {
+          "type": "string",
+          "description": "The type of the user that is represented by the token (User, Account)"
+        },
+        "username": {
+          "type": "string",
+          "description": "The username"
+        }
+      },
+      "description": "Represents basic information about a user"
+    },
+    "VolPriceBreakdownForCountryReportEntityDto": {
+      "properties": {
+        "details": {
+          "type": "array",
+          "description": "The details of this report",
+          "items": {
+            "$ref": "#/definitions/ReportInfoForNetworkDto"
+          }
+        },
+        "price": {
+          "type": "number",
+          "format": "double",
+          "description": "The total price fot the total sms of the report for the customer"
+        },
+        "smsVolumes": {
+          "description": "the volumes of the sms",
+          "$ref": "#/definitions/SmsVolumesDto"
+        },
+        "startDateTime": {
+          "description": "The starting date and time from which this report was generated",
+          "$ref": "#/definitions/OffsetDateTime"
+        },
+        "timeGrouping": {
+          "type": "string",
+          "description": "The grouping used in this report"
+        }
+      },
+      "description": "Contains the analytics for a range of messages associated with the account id for a specific country grouped per network"
+    },
+    "Map«string,string»": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "ContactNotDeletedServiceException": {
+      "properties": {
+        "cause": {
+          "$ref": "#/definitions/Throwable"
+        },
+        "code": {
+          "type": "string"
+        },
+        "developerMessage": {
+          "type": "string"
+        },
+        "localizedMessage": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "stackTrace": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StackTraceElement"
+          }
+        },
+        "suppressed": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Throwable"
+          }
+        }
+      }
+    },
+    "BraintreeTransactionDto": {
+      "required": [
+        "amount",
+        "paymentMethodNonce"
+      ],
+      "properties": {
+        "amount": {
+          "type": "number",
+          "format": "double",
+          "description": "The amount of the transaction"
+        },
+        "paymentMethodNonce": {
+          "type": "string",
+          "description": "The unique payment method nonce generated by the Braintree SDK"
+        },
+        "status": {
+          "type": "string",
+          "description": "The status of the transaction after it has been submitted"
+        }
+      },
+      "description": "Information about a Transaction related to Braintree"
+    },
+    "ContactRecipientInfoDto": {
+      "required": [
+        "blacklisted",
+        "recipient",
+        "recipientCountry"
+      ],
+      "properties": {
+        "blacklisted": {
+          "type": "boolean",
+          "description": "If the contact is in blacklist (he will not receive a message)"
+        },
+        "recipient": {
+          "type": "string",
+          "description": "The recipient"
+        },
+        "recipientCountry": {
+          "type": "string",
+          "description": "The country of the recipient extracted by the country code"
+        }
+      },
+      "description": "Contains information about a contact after being analyzed"
+    },
+    "InvitationNotFoundServiceException": {
+      "properties": {
+        "cause": {
+          "$ref": "#/definitions/Throwable"
+        },
+        "code": {
+          "type": "string"
+        },
+        "developerMessage": {
+          "type": "string"
+        },
+        "entity": {
+          "type": "string"
+        },
+        "localizedMessage": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "property": {
+          "type": "string"
+        },
+        "stackTrace": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StackTraceElement"
+          }
+        },
+        "suppressed": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Throwable"
+          }
+        },
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "OperationProgressDto": {
+      "required": [
+        "finished",
+        "processed",
+        "total"
+      ],
+      "properties": {
+        "finished": {
+          "type": "boolean",
+          "description": "Defines if the process has finished"
+        },
+        "processed": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The amount of entries processed"
+        },
+        "total": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The total amount of entries to be processed"
+        }
+      },
+      "description": "Stores information about the progress of a process"
+    },
+    "CallbackInfoDto": {
+      "required": [
+        "strategy",
+        "url"
+      ],
+      "properties": {
+        "strategy": {
+          "type": "string",
+          "description": "When the URL will be called, on every status change (OnChange) or when a final status arrives (OnCompletion)"
+        },
+        "url": {
+          "type": "string",
+          "description": "The URL that will be called when an update occurs"
+        }
+      },
+      "description": "Information about a DLR callback"
+    },
+    "BalanceNotificationSettingsDto": {
+      "required": [
+        "balanceLimit",
+        "channels",
+        "emails",
+        "enableNotification",
+        "mobiles"
+      ],
+      "properties": {
+        "balanceLimit": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The limit bellow which notification will be triggered"
+        },
+        "channels": {
+          "type": "array",
+          "description": "The channels where the notifications will be broadcast",
+          "items": {
+            "type": "string",
+            "enum": [
+              "SMS",
+              "EMAIL",
+              "WEBSOCKET"
+            ]
+          }
+        },
+        "emails": {
+          "type": "array",
+          "description": "The email addresses where the email notifications will be send",
+          "items": {
+            "type": "string"
+          }
+        },
+        "enableNotification": {
+          "type": "boolean",
+          "description": "The property indicating wherever the notification is enabled"
+        },
+        "mobiles": {
+          "type": "array",
+          "description": "The mobile numbers where the sms notifications will be send",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "Represents the settings for an account for triggering notifications when the account balance drops bellow a limit"
+    },
+    "AccessToUserDeniedServiceException": {
+      "properties": {
+        "cause": {
+          "$ref": "#/definitions/Throwable"
+        },
+        "code": {
+          "type": "string"
+        },
+        "developerMessage": {
+          "type": "string"
+        },
+        "localizedMessage": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "stackTrace": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StackTraceElement"
+          }
+        },
+        "suppressed": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Throwable"
+          }
+        }
+      }
+    }
+  }
+}
+
