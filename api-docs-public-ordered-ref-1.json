@@ -1654,7 +1654,7 @@
                 }
             },
             "description": "A verification request. When send it will initiate the two step verification process"
-        },
+        }
 
 
 
