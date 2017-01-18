@@ -155,27 +155,6 @@
                 }
             },
             "description": "A verification request. When send it will initiate the two step verification process"
-        },
-    "StackTraceElement": {
-            "type": "object",
-            "properties": {
-                "className": {
-                    "type": "string"
-                },
-                "fileName": {
-                    "type": "string"
-                },
-                "lineNumber": {
-                    "type": "integer",
-                    "format": "int32"
-                },
-                "methodName": {
-                    "type": "string"
-                },
-                "nativeMethod": {
-                    "type": "boolean"
-                }
-            }
         }
     },
   "externalDocs": {
