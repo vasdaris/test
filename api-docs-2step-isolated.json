@@ -80,7 +80,12 @@
                     "type": "string",
                     "description": "The recipient to send the sms message to (must be a valid phone number)"
                 },
-
+                "securityMessageOption": {
+                    "$ref": "#/definitions/SecurityMessageOptionDto"
+                },
+                "senderOption": {
+                    "$ref": "#/definitions/SenderOptionDto"
+                },
                 "template": {
                     "type": "string",
                     "description": "The template to send to the user, if not provided the appropriate template from the settings will be send. The template must contain the @@pin that will be replaced by the generated code"
