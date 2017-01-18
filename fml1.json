@@ -621,6 +621,46 @@
             },
             "description": "Represents status information about a verification request"
         },
+        "TwoStepReportDto": {
+            "type": "object",
+            "required": [
+                "applicationId",
+                "perCountry",
+                "total",
+                "totals"
+            ],
+            "properties": {
+                "applicationId": {
+                    "type": "string",
+                    "description": "The id of the application"
+                },
+                "perCountry": {
+                    "type": "object",
+                    "description": "The total number of requests send, grouped by country and by status",
+                    "additionalProperties": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                },
+                "total": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "The total number of requests send"
+                },
+                "totals": {
+                    "type": "object",
+                    "description": "The total number of requests send grouped by status",
+                    "additionalProperties": {
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                }
+            },
+            "description": "A report that represents the number of verification requests per statusand by country and status, send by a specific application."
+        },	    
     "SenderOptionDto": {
             "type": "object",
             "properties": {
