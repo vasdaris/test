@@ -1,0 +1,864 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Endpoints of the Routee API",
+        "version": "1.0",
+        "title": "Routee API",
+        "contact": {
+            "name": "Routee API",
+            "url": "www.routee.net",
+            "email": "info@routee.net"
+        },
+        "license": {
+            "name": "license"
+        }
+    },
+    "host": "connect.routee.net",
+    "basePath": "/",
+    "tags": [
+        {
+            "name": "Two Step Verification API",
+            "description": "API resources for the Two Step Verification service"
+        }
+    ],
+    "schemes": [
+        "https"
+    ],
+    "paths": {
+        "/2step": {
+            "post": {
+                "tags": [
+                    "Two Step Verification API"
+                ],
+                "summary": "create verification",
+                "description": "creates a new verification and sends the message to the recipient",
+                "operationId": "verifyUsingPOST",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json",
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "request",
+                        "description": "request",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/VerificationDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The new verification",
+                        "schema": {
+                            "$ref": "#/definitions/VerificationStatusDto"
+                        }
+                    }
+                },
+        "security": [
+          {
+            "routee_auth": [
+              "write:VerificationDto",
+              "read:VerificationDto"
+            ]
+          }
+        ]                
+            }
+        },
+        "/2step/reports": {
+            "get": {
+                "tags": [
+                    "Two Step Verification API"
+                ],
+                "summary": "Twostep Report (per account)",
+                "description": "retrieves the report for the logged in account",
+                "operationId": "reportUsingGET_1",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json",
+                    "*/*"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/TwoStepReportDto"
+                        }
+                    }
+                }
+            },
+            "head": {
+                "tags": [
+                    "Two Step Verification API"
+                ],
+                "summary": "Twostep Report (per account)",
+                "description": "retrieves the report for the logged in account",
+                "operationId": "reportUsingHEAD_1",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json",
+                    "*/*"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/TwoStepReportDto"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Two Step Verification API"
+                ],
+                "summary": "Twostep Report (per account)",
+                "description": "retrieves the report for the logged in account",
+                "operationId": "reportUsingPOST_1",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json",
+                    "*/*"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/TwoStepReportDto"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Two Step Verification API"
+                ],
+                "summary": "Twostep Report (per account)",
+                "description": "retrieves the report for the logged in account",
+                "operationId": "reportUsingPUT_1",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json",
+                    "*/*"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/TwoStepReportDto"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Two Step Verification API"
+                ],
+                "summary": "Twostep Report (per account)",
+                "description": "retrieves the report for the logged in account",
+                "operationId": "reportUsingDELETE_1",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json",
+                    "*/*"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/TwoStepReportDto"
+                        }
+                    }
+                }
+            },
+            "options": {
+                "tags": [
+                    "Two Step Verification API"
+                ],
+                "summary": "Twostep Report (per account)",
+                "description": "retrieves the report for the logged in account",
+                "operationId": "reportUsingOPTIONS_1",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json",
+                    "*/*"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/TwoStepReportDto"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Two Step Verification API"
+                ],
+                "summary": "Twostep Report (per account)",
+                "description": "retrieves the report for the logged in account",
+                "operationId": "reportUsingPATCH_1",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json",
+                    "*/*"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/TwoStepReportDto"
+                        }
+                    }
+                }
+            }
+        },
+        "/2step/reports/applications/{applicationId}": {
+            "get": {
+                "tags": [
+                    "Two Step Verification API"
+                ],
+                "summary": "Twostep Report",
+                "description": "retrieves the report for a specific application",
+                "operationId": "reportUsingGET",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json",
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "applicationId",
+                        "in": "path",
+                        "description": "applicationId",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/TwoStepReportDto"
+                        }
+                    }
+                }
+            },
+            "head": {
+                "tags": [
+                    "Two Step Verification API"
+                ],
+                "summary": "Twostep Report",
+                "description": "retrieves the report for a specific application",
+                "operationId": "reportUsingHEAD",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json",
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "applicationId",
+                        "in": "path",
+                        "description": "applicationId",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/TwoStepReportDto"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Two Step Verification API"
+                ],
+                "summary": "Twostep Report",
+                "description": "retrieves the report for a specific application",
+                "operationId": "reportUsingPOST",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json",
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "applicationId",
+                        "in": "path",
+                        "description": "applicationId",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/TwoStepReportDto"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Two Step Verification API"
+                ],
+                "summary": "Twostep Report",
+                "description": "retrieves the report for a specific application",
+                "operationId": "reportUsingPUT",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json",
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "applicationId",
+                        "in": "path",
+                        "description": "applicationId",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/TwoStepReportDto"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Two Step Verification API"
+                ],
+                "summary": "Twostep Report",
+                "description": "retrieves the report for a specific application",
+                "operationId": "reportUsingDELETE",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json",
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "applicationId",
+                        "in": "path",
+                        "description": "applicationId",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/TwoStepReportDto"
+                        }
+                    }
+                }
+            },
+            "options": {
+                "tags": [
+                    "Two Step Verification API"
+                ],
+                "summary": "Twostep Report",
+                "description": "retrieves the report for a specific application",
+                "operationId": "reportUsingOPTIONS",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json",
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "applicationId",
+                        "in": "path",
+                        "description": "applicationId",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/TwoStepReportDto"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Two Step Verification API"
+                ],
+                "summary": "Twostep Report",
+                "description": "retrieves the report for a specific application",
+                "operationId": "reportUsingPATCH",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json",
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "applicationId",
+                        "in": "path",
+                        "description": "applicationId",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/TwoStepReportDto"
+                        }
+                    }
+                }
+            }
+        },
+        "/2step/{trackingId}": {
+            "get": {
+                "tags": [
+                    "Two Step Verification API"
+                ],
+                "summary": "verification status",
+                "description": "Retrieves the status of an existing verification",
+                "operationId": "statusUsingGET",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json",
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "trackingId",
+                        "in": "path",
+                        "description": "trackingId",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The status of the verification",
+                        "schema": {
+                            "$ref": "#/definitions/VerificationStatusDto"
+                        }
+                    },
+                    "404": {
+                        "description": "In the verification with the given id is not found",
+                        "schema": {
+                            "$ref": "#/definitions/VerificationNotFoundServiceException"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Two Step Verification API"
+                ],
+                "summary": "verify answer",
+                "description": "checks the answer to complete the verification proccess",
+                "operationId": "confirmUsingPOST",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json",
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "trackingId",
+                        "in": "path",
+                        "description": "trackingId",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "answer",
+                        "in": "query",
+                        "description": "answer",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The new status of the verification",
+                        "schema": {
+                            "$ref": "#/definitions/VerificationStatusDto"
+                        }
+                    },
+                    "400": {
+                        "description": "In case the provided answer is wrong",
+                        "schema": {
+                            "$ref": "#/definitions/WrongAnswerServiceException"
+                        }
+                    },
+                    "404": {
+                        "description": "In the verification with the given id is not found",
+                        "schema": {
+                            "$ref": "#/definitions/VerificationNotFoundServiceException"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Two Step Verification API"
+                ],
+                "summary": "invalidate verification",
+                "description": "invalidates an in progress verification",
+                "operationId": "invalidateUsingDELETE",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json",
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "trackingId",
+                        "in": "path",
+                        "description": "trackingId",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The new status of the verification",
+                        "schema": {
+                            "$ref": "#/definitions/VerificationStatusDto"
+                        }
+                    },
+                    "400": {
+                        "description": "In the verification is not in pending status",
+                        "schema": {
+                            "$ref": "#/definitions/InvalidVerificationStatusServiceException"
+                        }
+                    },
+                    "404": {
+                        "description": "In the verification with the given id is not found",
+                        "schema": {
+                            "$ref": "#/definitions/VerificationNotFoundServiceException"
+                        }
+                    }
+                }
+            }
+        }        
+    },
+    "definitions": {
+    "VerificationStatusDto": {
+            "type": "object",
+            "required": [
+                "status",
+                "trackingId",
+                "updatedAt"
+            ],
+            "properties": {
+                "status": {
+                    "type": "string",
+                    "description": "The status of the verification. \nPending: When the verification is created and is waiting for a confirmation, \nVerified: A correct answer was provided, \nCancelled: The verification was cancelled,\nExpired: The verification is expired,\nFailed: A wrong answer was provided"
+                },
+                "trackingId": {
+                    "type": "string",
+                    "description": "The tracking id "
+                },
+                "updatedAt": {
+                    "type": "string",
+                    "description": "The date that this verification was update"
+                }
+            },
+            "description": "Represents status information about a verification request"
+        },
+    "SenderOptionDto": {
+            "type": "object",
+            "properties": {
+                "method": {
+                    "type": "string"
+                }
+            },
+            "description": "Options for the sender"
+        },
+    "SecurityMessageOptionDto": {
+            "type": "object",
+            "properties": {
+                "lifetimeInSeconds": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "Indicates the number of seconds that the verification will be valid, when that time passes the user will not be able to confirm the request"
+                },
+                "maxRetries": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "The number of times the user is allowed to enter a wrong answer before the verification becomes invalid"
+                },
+                "type": {
+                    "type": "string"
+                }
+            },
+            "description": "Options for the security message"
+        }, 
+	"VerificationDto": {
+            "type": "object",
+            "required": [
+                "recipient"
+            ],   
+            "properties": {
+                "arguments": {
+                    "type": "object",
+                    "description": "A list of arguments for the template message.For example, if the template message contains an @@name and a name:john is send as an argument the @@name will be replaced with john",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "recipient": {
+                    "type": "string",
+                    "description": "The recipient to send the sms message to (must be a valid phone number)"
+                },
+                "securityMessageOption": {
+                    "$ref": "#/definitions/SecurityMessageOptionDto"
+                },
+                "senderOption": {
+                    "$ref": "#/definitions/SenderOptionDto"
+                },
+                "template": {
+                    "type": "string",
+                    "description": "The template to send to the user, if not provided the appropriate template from the settings will be send. The template must contain the @@pin that will be replaced by the generated code"
+                },
+                "templateCountry": {
+                    "type": "string",
+                    "description": "The country that will be used to select the appropriate template (if a template wasn't specified in this request).If not provided the country will be exported from the recipient mobile number"
+                }
+            },
+            "description": "A verification request. When send it will initiate the two step verification process"
+        },
+    "TwoStepReportDto": {
+            "type": "object",
+            "required": [
+                "applicationId",
+                "perCountry",
+                "total",
+                "totals"
+            ],
+            "properties": {
+                "applicationId": {
+                    "type": "string",
+                    "description": "The id of the application"
+                },
+                "perCountry": {
+                    "type": "object",
+                    "description": "The total number of requests send, grouped by country and by status",
+                    "additionalProperties": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                },
+                "total": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "The total number of requests send"
+                },
+                "totals": {
+                    "type": "object",
+                    "description": "The total number of requests send grouped by status",
+                    "additionalProperties": {
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                }
+            },
+            "description": "A report that represents the number of verification requests per statusand by country and status, send by a specific application."
+        },           
+    "StackTraceElement": {
+            "type": "object",
+            "properties": {
+                "className": {
+                    "type": "string"
+                },
+                "fileName": {
+                    "type": "string"
+                },
+                "lineNumber": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "methodName": {
+                    "type": "string"
+                },
+                "nativeMethod": {
+                    "type": "boolean"
+                }
+            }
+        },
+    "Throwable": {
+            "type": "object",
+            "properties": {
+                "cause": {
+                    "$ref": "#/definitions/Throwable"
+                },
+                "localizedMessage": {
+                    "type": "string"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "stackTrace": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/StackTraceElement"
+                    }
+                },
+                "suppressed": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Throwable"
+                    }
+                }
+            }
+        },
+    "VerificationNotFoundServiceException": {
+            "type": "object",
+            "properties": {
+                "cause": {
+                    "$ref": "#/definitions/Throwable"
+                },
+                "code": {
+                    "type": "string"
+                },
+                "developerMessage": {
+                    "type": "string"
+                },
+                "entity": {
+                    "type": "string"
+                },
+                "localizedMessage": {
+                    "type": "string"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "property": {
+                    "type": "string"
+                },
+                "stackTrace": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/StackTraceElement"
+                    }
+                },
+                "suppressed": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Throwable"
+                    }
+                },
+                "value": {
+                    "type": "string"
+                }
+            }
+        },
+    "WrongAnswerServiceException": {
+            "type": "object",
+            "properties": {
+                "cause": {
+                    "$ref": "#/definitions/Throwable"
+                },
+                "code": {
+                    "type": "string"
+                },
+                "developerMessage": {
+                    "type": "string"
+                },
+                "localizedMessage": {
+                    "type": "string"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "stackTrace": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/StackTraceElement"
+                    }
+                },
+                "suppressed": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Throwable"
+                    }
+                }
+            }
+        }
+    },
+  "externalDocs": {
+    "description": "Find out more about Routee",
+    "url": "http://www.routee.net"
+  },
+  "securityDefinitions": {
+    "routee_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://auth.routee.net/oauth/token",
+      "flow": "implicit",
+      "scopes": {
+        "write:VerificationDto": "modify pets in your account",
+        "read:VerificationDto": "read your pets"
+      }
+    },
+    "api_key": {
+      "type": "apiKey",
+      "name": "api_key",
+      "in": "header"
+    }
+  }  
+}
