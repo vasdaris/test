@@ -63,6 +63,57 @@
         }
     },
     "definitions": {
+    "VerificationStatusDto": {
+            "type": "object",
+            "required": [
+                "status",
+                "trackingId",
+                "updatedAt"
+            ],
+            "properties": {
+                "status": {
+                    "type": "string",
+                    "description": "The status of the verification. \nPending: When the verification is created and is waiting for a confirmation, \nVerified: A correct answer was provided, \nCancelled: The verification was cancelled,\nExpired: The verification is expired,\nFailed: A wrong answer was provided"
+                },
+                "trackingId": {
+                    "type": "string",
+                    "description": "The tracking id "
+                },
+                "updatedAt": {
+                    "type": "string",
+                    "description": "The date that this verification was update"
+                }
+            },
+            "description": "Represents status information about a verification request"
+        },
+    "SenderOptionDto": {
+            "type": "object",
+            "properties": {
+                "method": {
+                    "type": "string"
+                }
+            },
+            "description": "Options for the sender"
+        },
+    "SecurityMessageOptionDto": {
+            "type": "object",
+            "properties": {
+                "lifetimeInSeconds": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "Indicates the number of seconds that the verification will be valid, when that time passes the user will not be able to confirm the request"
+                },
+                "maxRetries": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "The number of times the user is allowed to enter a wrong answer before the verification becomes invalid"
+                },
+                "type": {
+                    "type": "string"
+                }
+            },
+            "description": "Options for the security message"
+        },    
 	"VerificationDto": {
             "type": "object",
             "required": [
@@ -96,57 +147,7 @@
                 }
             },
             "description": "A verification request. When send it will initiate the two step verification process"
-        },
-        "VerificationStatusDto": {
-            "type": "object",
-            "required": [
-                "status",
-                "trackingId",
-                "updatedAt"
-            ],
-            "properties": {
-                "status": {
-                    "type": "string",
-                    "description": "The status of the verification. \nPending: When the verification is created and is waiting for a confirmation, \nVerified: A correct answer was provided, \nCancelled: The verification was cancelled,\nExpired: The verification is expired,\nFailed: A wrong answer was provided"
-                },
-                "trackingId": {
-                    "type": "string",
-                    "description": "The tracking id "
-                },
-                "updatedAt": {
-                    "type": "string",
-                    "description": "The date that this verification was update"
-                }
-            },
-            "description": "Represents status information about a verification request"
-        },
-        "SenderOptionDto": {
-            "type": "object",
-            "properties": {
-                "method": {
-                    "type": "string"
-                }
-            },
-            "description": "Options for the sender"
-        },
-        "SecurityMessageOptionDto": {
-            "type": "object",
-            "properties": {
-                "lifetimeInSeconds": {
-                    "type": "integer",
-                    "format": "int32",
-                    "description": "Indicates the number of seconds that the verification will be valid, when that time passes the user will not be able to confirm the request"
-                },
-                "maxRetries": {
-                    "type": "integer",
-                    "format": "int32",
-                    "description": "The number of times the user is allowed to enter a wrong answer before the verification becomes invalid"
-                },
-                "type": {
-                    "type": "string"
-                }
-            },
-            "description": "Options for the security message"
         }
+
     }
 }
