@@ -156,46 +156,6 @@
             },
             "description": "A verification request. When send it will initiate the two step verification process"
         },
-    "TwoStepReportDto": {
-            "type": "object",
-            "required": [
-                "applicationId",
-                "perCountry",
-                "total",
-                "totals"
-            ],
-            "properties": {
-                "applicationId": {
-                    "type": "string",
-                    "description": "The id of the application"
-                },
-                "perCountry": {
-                    "type": "object",
-                    "description": "The total number of requests send, grouped by country and by status",
-                    "additionalProperties": {
-                        "type": "object",
-                        "additionalProperties": {
-                            "type": "integer",
-                            "format": "int64"
-                        }
-                    }
-                },
-                "total": {
-                    "type": "integer",
-                    "format": "int64",
-                    "description": "The total number of requests send"
-                },
-                "totals": {
-                    "type": "object",
-                    "description": "The total number of requests send grouped by status",
-                    "additionalProperties": {
-                        "type": "integer",
-                        "format": "int64"
-                    }
-                }
-            },
-            "description": "A report that represents the number of verification requests per statusand by country and status, send by a specific application."
-        },           
     "StackTraceElement": {
             "type": "object",
             "properties": {
@@ -222,79 +182,6 @@
             "properties": {
                 "cause": {
                     "$ref": "#/definitions/Throwable"
-                },
-                "localizedMessage": {
-                    "type": "string"
-                },
-                "message": {
-                    "type": "string"
-                },
-                "stackTrace": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/StackTraceElement"
-                    }
-                },
-                "suppressed": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/Throwable"
-                    }
-                }
-            }
-        },
-    "VerificationNotFoundServiceException": {
-            "type": "object",
-            "properties": {
-                "cause": {
-                    "$ref": "#/definitions/Throwable"
-                },
-                "code": {
-                    "type": "string"
-                },
-                "developerMessage": {
-                    "type": "string"
-                },
-                "entity": {
-                    "type": "string"
-                },
-                "localizedMessage": {
-                    "type": "string"
-                },
-                "message": {
-                    "type": "string"
-                },
-                "property": {
-                    "type": "string"
-                },
-                "stackTrace": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/StackTraceElement"
-                    }
-                },
-                "suppressed": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/Throwable"
-                    }
-                },
-                "value": {
-                    "type": "string"
-                }
-            }
-        },
-    "WrongAnswerServiceException": {
-            "type": "object",
-            "properties": {
-                "cause": {
-                    "$ref": "#/definitions/Throwable"
-                },
-                "code": {
-                    "type": "string"
-                },
-                "developerMessage": {
-                    "type": "string"
                 },
                 "localizedMessage": {
                     "type": "string"
