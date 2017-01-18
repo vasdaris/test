@@ -1,1598 +1,185 @@
 {
-	"swagger": "2.0",
-	"info": {
-		"description": "Endpoints of the Routee API",
-		"version": "1.0",
-		"title": "Routee API",
-		"contact": {
-			"name": "Routee API",
-			"url": "www.routee.net",
-			"email": "info@routee.net"
-		},
-		"license": {
-			"name": "license"
-		}
-	},
-	"host": "connect.routee.net",
-	"basePath": "/",
-	"tags": [{
-		"name": "Messaging API",
-		"description": "API resources for sending SMS"
-	}, {
-		"name": "Messaging Campaign API",
-		"description": "API resources for sending multiple messages or campaigns"
-	}, {
-		"name": "Quiet Hours API",
-		"description": "API resources to get which countries are enabled for the quiet hours feature"
-	}, {
-		"name": "SMS Tracking API",
-		"description": "API resources for trackings your message consumption"
-	}, {
-		"name": "Lookup API",
-		"description": "API resources for the Lookup service"
-	}, {
-		"name": "Two Step Verification API",
-		"description": "API resources for the Two Step Verification service"
-	}, {
-		"name": "Contacts API",
-		"description": "API resources for contacts"
-	}, {
-		"name": "Contact Groups API",
-		"description": "API resources for managing contact groups and segments"
-	}, {
-		"name": "Contact Labels Management API",
-		"description": "API resources for managing contact labels"
-	}, {
-		"name": "Contacts Blacklist Management API",
-		"description": "API resources for handling blacklists for your contacts"
-	}, {
-		"name": "Account API",
-		"description": "API resources for managing your Routee accounts"
-	}, {
-		"name": "Reports API",
-		"description": "API resources for getting reports for all Routee services"
-	}, {
-		"name": "System API",
-		"description": "API resources for system"
-	}],
-	"schemes": [
-		"https"
-	],
-	"paths": {
-		"/2step": {
-			"post": {
-				"tags": [
-					"Two Step Verification API"
-				],
-				"summary": "create verification",
-				"description": "creates a new verification and sends the message to the recipient",
-				"operationId": "verifyUsingPOST",
-				"consumes": [
-					"application/json"
-				],
-				"produces": [
-					"application/json",
-					"*/*"
-				],
-				"parameters": [{
-					"in": "body",
-					"name": "request",
-					"description": "request",
-					"required": true,
-					"schema": {
-						"$ref": "#/definitions/VerificationDto"
-					}
-				}],
-				"responses": {
-					"200": {
-						"description": "The new verification",
-						"schema": {
-							"$ref": "#/definitions/VerificationStatusDto"
-						}
-					}
-				}
-			}
-		},
-		"/2step/reports": {
-			"get": {
-				"tags": [
-					"Two Step Verification API"
-				],
-				"summary": "Twostep Report (per account)",
-				"description": "retrieves the report for the logged in account",
-				"operationId": "reportUsingGET_1",
-				"consumes": [
-					"application/json"
-				],
-				"produces": [
-					"application/json",
-					"*/*"
-				],
-				"responses": {
-					"200": {
-						"description": "OK",
-						"schema": {
-							"$ref": "#/definitions/TwoStepReportDto"
-						}
-					}
-				}
-			},
-			"head": {
-				"tags": [
-					"Two Step Verification API"
-				],
-				"summary": "Twostep Report (per account)",
-				"description": "retrieves the report for the logged in account",
-				"operationId": "reportUsingHEAD_1",
-				"consumes": [
-					"application/json"
-				],
-				"produces": [
-					"application/json",
-					"*/*"
-				],
-				"responses": {
-					"200": {
-						"description": "OK",
-						"schema": {
-							"$ref": "#/definitions/TwoStepReportDto"
-						}
-					}
-				}
-			},
-			"post": {
-				"tags": [
-					"Two Step Verification API"
-				],
-				"summary": "Twostep Report (per account)",
-				"description": "retrieves the report for the logged in account",
-				"operationId": "reportUsingPOST_1",
-				"consumes": [
-					"application/json"
-				],
-				"produces": [
-					"application/json",
-					"*/*"
-				],
-				"responses": {
-					"200": {
-						"description": "OK",
-						"schema": {
-							"$ref": "#/definitions/TwoStepReportDto"
-						}
-					}
-				}
-			},
-			"put": {
-				"tags": [
-					"Two Step Verification API"
-				],
-				"summary": "Twostep Report (per account)",
-				"description": "retrieves the report for the logged in account",
-				"operationId": "reportUsingPUT_1",
-				"consumes": [
-					"application/json"
-				],
-				"produces": [
-					"application/json",
-					"*/*"
-				],
-				"responses": {
-					"200": {
-						"description": "OK",
-						"schema": {
-							"$ref": "#/definitions/TwoStepReportDto"
-						}
-					}
-				}
-			},
-			"delete": {
-				"tags": [
-					"Two Step Verification API"
-				],
-				"summary": "Twostep Report (per account)",
-				"description": "retrieves the report for the logged in account",
-				"operationId": "reportUsingDELETE_1",
-				"consumes": [
-					"application/json"
-				],
-				"produces": [
-					"application/json",
-					"*/*"
-				],
-				"responses": {
-					"200": {
-						"description": "OK",
-						"schema": {
-							"$ref": "#/definitions/TwoStepReportDto"
-						}
-					}
-				}
-			},
-			"options": {
-				"tags": [
-					"Two Step Verification API"
-				],
-				"summary": "Twostep Report (per account)",
-				"description": "retrieves the report for the logged in account",
-				"operationId": "reportUsingOPTIONS_1",
-				"consumes": [
-					"application/json"
-				],
-				"produces": [
-					"application/json",
-					"*/*"
-				],
-				"responses": {
-					"200": {
-						"description": "OK",
-						"schema": {
-							"$ref": "#/definitions/TwoStepReportDto"
-						}
-					}
-				}
-			},
-			"patch": {
-				"tags": [
-					"Two Step Verification API"
-				],
-				"summary": "Twostep Report (per account)",
-				"description": "retrieves the report for the logged in account",
-				"operationId": "reportUsingPATCH_1",
-				"consumes": [
-					"application/json"
-				],
-				"produces": [
-					"application/json",
-					"*/*"
-				],
-				"responses": {
-					"200": {
-						"description": "OK",
-						"schema": {
-							"$ref": "#/definitions/TwoStepReportDto"
-						}
-					}
-				}
-			}
-		},
-		"/2step/reports/applications/{applicationId}": {
-			"get": {
-				"tags": [
-					"Two Step Verification API"
-				],
-				"summary": "Twostep Report",
-				"description": "retrieves the report for a specific application",
-				"operationId": "reportUsingGET",
-				"consumes": [
-					"application/json"
-				],
-				"produces": [
-					"application/json",
-					"*/*"
-				],
-				"parameters": [{
-					"name": "applicationId",
-					"in": "path",
-					"description": "applicationId",
-					"required": true,
-					"type": "string"
-				}],
-				"responses": {
-					"200": {
-						"description": "OK",
-						"schema": {
-							"$ref": "#/definitions/TwoStepReportDto"
-						}
-					}
-				}
-			},
-			"head": {
-				"tags": [
-					"Two Step Verification API"
-				],
-				"summary": "Twostep Report",
-				"description": "retrieves the report for a specific application",
-				"operationId": "reportUsingHEAD",
-				"consumes": [
-					"application/json"
-				],
-				"produces": [
-					"application/json",
-					"*/*"
-				],
-				"parameters": [{
-					"name": "applicationId",
-					"in": "path",
-					"description": "applicationId",
-					"required": true,
-					"type": "string"
-				}],
-				"responses": {
-					"200": {
-						"description": "OK",
-						"schema": {
-							"$ref": "#/definitions/TwoStepReportDto"
-						}
-					}
-				}
-			},
-			"post": {
-				"tags": [
-					"Two Step Verification API"
-				],
-				"summary": "Twostep Report",
-				"description": "retrieves the report for a specific application",
-				"operationId": "reportUsingPOST",
-				"consumes": [
-					"application/json"
-				],
-				"produces": [
-					"application/json",
-					"*/*"
-				],
-				"parameters": [{
-					"name": "applicationId",
-					"in": "path",
-					"description": "applicationId",
-					"required": true,
-					"type": "string"
-				}],
-				"responses": {
-					"200": {
-						"description": "OK",
-						"schema": {
-							"$ref": "#/definitions/TwoStepReportDto"
-						}
-					}
-				}
-			},
-			"put": {
-				"tags": [
-					"Two Step Verification API"
-				],
-				"summary": "Twostep Report",
-				"description": "retrieves the report for a specific application",
-				"operationId": "reportUsingPUT",
-				"consumes": [
-					"application/json"
-				],
-				"produces": [
-					"application/json",
-					"*/*"
-				],
-				"parameters": [{
-					"name": "applicationId",
-					"in": "path",
-					"description": "applicationId",
-					"required": true,
-					"type": "string"
-				}],
-				"responses": {
-					"200": {
-						"description": "OK",
-						"schema": {
-							"$ref": "#/definitions/TwoStepReportDto"
-						}
-					}
-				}
-			},
-			"delete": {
-				"tags": [
-					"Two Step Verification API"
-				],
-				"summary": "Twostep Report",
-				"description": "retrieves the report for a specific application",
-				"operationId": "reportUsingDELETE",
-				"consumes": [
-					"application/json"
-				],
-				"produces": [
-					"application/json",
-					"*/*"
-				],
-				"parameters": [{
-					"name": "applicationId",
-					"in": "path",
-					"description": "applicationId",
-					"required": true,
-					"type": "string"
-				}],
-				"responses": {
-					"200": {
-						"description": "OK",
-						"schema": {
-							"$ref": "#/definitions/TwoStepReportDto"
-						}
-					}
-				}
-			},
-			"options": {
-				"tags": [
-					"Two Step Verification API"
-				],
-				"summary": "Twostep Report",
-				"description": "retrieves the report for a specific application",
-				"operationId": "reportUsingOPTIONS",
-				"consumes": [
-					"application/json"
-				],
-				"produces": [
-					"application/json",
-					"*/*"
-				],
-				"parameters": [{
-					"name": "applicationId",
-					"in": "path",
-					"description": "applicationId",
-					"required": true,
-					"type": "string"
-				}],
-				"responses": {
-					"200": {
-						"description": "OK",
-						"schema": {
-							"$ref": "#/definitions/TwoStepReportDto"
-						}
-					}
-				}
-			},
-			"patch": {
-				"tags": [
-					"Two Step Verification API"
-				],
-				"summary": "Twostep Report",
-				"description": "retrieves the report for a specific application",
-				"operationId": "reportUsingPATCH",
-				"consumes": [
-					"application/json"
-				],
-				"produces": [
-					"application/json",
-					"*/*"
-				],
-				"parameters": [{
-					"name": "applicationId",
-					"in": "path",
-					"description": "applicationId",
-					"required": true,
-					"type": "string"
-				}],
-				"responses": {
-					"200": {
-						"description": "OK",
-						"schema": {
-							"$ref": "#/definitions/TwoStepReportDto"
-						}
-					}
-				}
-			}
-		},
-		"/2step/{trackingId}": {
-			"get": {
-				"tags": [
-					"Two Step Verification API"
-				],
-				"summary": "verification status",
-				"description": "Retrieves the status of an existing verification",
-				"operationId": "statusUsingGET",
-				"consumes": [
-					"application/json"
-				],
-				"produces": [
-					"application/json",
-					"*/*"
-				],
-				"parameters": [{
-					"name": "trackingId",
-					"in": "path",
-					"description": "trackingId",
-					"required": true,
-					"type": "string"
-				}],
-				"responses": {
-					"200": {
-						"description": "The status of the verification",
-						"schema": {
-							"$ref": "#/definitions/VerificationStatusDto"
-						}
-					},
-					"404": {
-						"description": "In the verification with the given id is not found",
-						"schema": {
-							"$ref": "#/definitions/VerificationNotFoundServiceException"
-						}
-					}
-				}
-			},
-			"post": {
-				"tags": [
-					"Two Step Verification API"
-				],
-				"summary": "verify answer",
-				"description": "checks the answer to complete the verification proccess",
-				"operationId": "confirmUsingPOST",
-				"consumes": [
-					"application/json"
-				],
-				"produces": [
-					"application/json",
-					"*/*"
-				],
-				"parameters": [{
-					"name": "trackingId",
-					"in": "path",
-					"description": "trackingId",
-					"required": true,
-					"type": "string"
-				}, {
-					"name": "answer",
-					"in": "query",
-					"description": "answer",
-					"required": true,
-					"type": "string"
-				}],
-				"responses": {
-					"200": {
-						"description": "The new status of the verification",
-						"schema": {
-							"$ref": "#/definitions/VerificationStatusDto"
-						}
-					},
-					"400": {
-						"description": "In case the provided answer is wrong",
-						"schema": {
-							"$ref": "#/definitions/WrongAnswerServiceException"
-						}
-					},
-					"404": {
-						"description": "In the verification with the given id is not found",
-						"schema": {
-							"$ref": "#/definitions/VerificationNotFoundServiceException"
-						}
-					}
-				}
-			},
-			"delete": {
-				"tags": [
-					"Two Step Verification API"
-				],
-				"summary": "invalidate verification",
-				"description": "invalidates an in progress verification",
-				"operationId": "invalidateUsingDELETE",
-				"consumes": [
-					"application/json"
-				],
-				"produces": [
-					"application/json",
-					"*/*"
-				],
-				"parameters": [{
-					"name": "trackingId",
-					"in": "path",
-					"description": "trackingId",
-					"required": true,
-					"type": "string"
-				}],
-				"responses": {
-					"200": {
-						"description": "The new status of the verification",
-						"schema": {
-							"$ref": "#/definitions/VerificationStatusDto"
-						}
-					},
-					"400": {
-						"description": "In the verification is not in pending status",
-						"schema": {
-							"$ref": "#/definitions/InvalidVerificationStatusServiceException"
-						}
-					},
-					"404": {
-						"description": "In the verification with the given id is not found",
-						"schema": {
-							"$ref": "#/definitions/VerificationNotFoundServiceException"
-						}
-					}
-				}
-			}
-		}
+    "swagger": "2.0",
+    "info": {
+        "description": "Endpoints of the Routee API",
+        "version": "1.0",
+        "title": "Routee API",
+        "contact": {
+            "name": "Routee API",
+            "url": "www.routee.net",
+            "email": "info@routee.net"
+        },
+        "license": {
+            "name": "license"
+        }
+    },
+    "host": "connect.routee.net",
+    "basePath": "/",
+    "tags": [
+        {
+            "name": "Two Step Verification API",
+            "description": "API resources for the Two Step Verification service"
+        }
+    ],
+    "schemes": [
+        "https"
+    ],
+    "paths": {
+        "/2step": {
+            "post": {
+                "tags": [
+                    "Two Step Verification API"
+                ],
+                "summary": "create verification",
+                "description": "creates a new verification and sends the message to the recipient",
+                "operationId": "verifyUsingPOST",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json",
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "request",
+                        "description": "request",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/VerificationDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The new verification",
+                        "schema": {
+                            "$ref": "#/definitions/VerificationStatusDto"
+                        }
+                    }
+                },
+        "security": [
+          {
+            "routee_auth": [
+              "write:VerificationDto",
+              "read:VerificationDto"
+            ]
+          }
+        ]                
+            }
+        }
+    },
+    "definitions": {
+    "VerificationStatusDto": {
+            "type": "object",
+            "required": [
+                "status",
+                "trackingId",
+                "updatedAt"
+            ],
+            "properties": {
+                "status": {
+                    "type": "string",
+                    "description": "The status of the verification. \nPending: When the verification is created and is waiting for a confirmation, \nVerified: A correct answer was provided, \nCancelled: The verification was cancelled,\nExpired: The verification is expired,\nFailed: A wrong answer was provided"
+                },
+                "trackingId": {
+                    "type": "string",
+                    "description": "The tracking id "
+                },
+                "updatedAt": {
+                    "type": "string",
+                    "description": "The date that this verification was update"
+                }
+            },
+            "description": "Represents status information about a verification request"
+        },
+    "SenderOptionDto": {
+            "type": "object",
+            "properties": {
+                "method": {
+                    "type": "string"
+                }
+            },
+            "description": "Options for the sender"
+        },
+    "SecurityMessageOptionDto": {
+            "type": "object",
+            "properties": {
+                "lifetimeInSeconds": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "Indicates the number of seconds that the verification will be valid, when that time passes the user will not be able to confirm the request"
+                },
+                "maxRetries": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "The number of times the user is allowed to enter a wrong answer before the verification becomes invalid"
+                },
+                "type": {
+                    "type": "string"
+                }
+            },
+            "description": "Options for the security message"
+        },    
+	"VerificationDto": {
+            "type": "object",
+            "required": [
+                "recipient"
+            ],   
+            "properties": {
+                "arguments": {
+                    "type": "object",
+                    "description": "A list of arguments for the template message.For example, if the template message contains an @@name and a name:john is send as an argument the @@name will be replaced with john",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "recipient": {
+                    "type": "string",
+                    "description": "The recipient to send the sms message to (must be a valid phone number)"
+                },
+                "securityMessageOption": {
+                    "$ref": "#/definitions/SecurityMessageOptionDto"
+                },
+                "senderOption": {
+                    "$ref": "#/definitions/SenderOptionDto"
+                },
+                "template": {
+                    "type": "string",
+                    "description": "The template to send to the user, if not provided the appropriate template from the settings will be send. The template must contain the @@pin that will be replaced by the generated code"
+                },
+                "templateCountry": {
+                    "type": "string",
+                    "description": "The country that will be used to select the appropriate template (if a template wasn't specified in this request).If not provided the country will be exported from the recipient mobile number"
+                }
+            },
+            "description": "A verification request. When send it will initiate the two step verification process"
+        }
 
-	},
-	"definitions": {
-		"FieldDefinition": {
-			"type": "object",
-			"properties": {
-				"name": {
-					"type": "string"
-				},
-				"type": {
-					"type": "string",
-					"enum": [
-						"Date",
-						"Number",
-						"Text",
-						"Unknown"
-					]
-				}
-			}
-		},
-		"GroupMergeDto": {
-			"type": "object",
-			"required": [
-				"groups",
-				"name"
-			],
-			"properties": {
-				"groups": {
-					"type": "array",
-					"description": "The groups to be merged",
-					"items": {
-						"type": "string"
-					}
-				},
-				"name": {
-					"type": "string",
-					"description": "The name of the new group to be created."
-				}
-			},
-			"description": "Contains the tags of the groups that will be merged and the tag of the new group"
-		},
-		"SmsNetworkPriceDto": {
-			"type": "object",
-			"required": [
-				"mnc",
-				"network",
-				"price"
-			], 
-			"properties": {
-				"mnc": {
-					"type": "string",
-					"description": "The mnc"
-				},
-				"network": {
-					"type": "string",
-					"description": "The network name"
-				},
-				"price": {
-					"type": "number",
-					"description": "The price"
-				}
-			},
-			"description": "Sms Price for a specific network"
-		},
-		"SmsCountryPriceTableDto": {
-			"type": "object",
-			"required": [
-				"country",
-				"iso",
-				"mcc",
-				"networks"
-			],
-			"properties": {
-				"country": {
-					"type": "string",
-					"description": "The country name"
-				},
-				"iso": {
-					"type": "string",
-					"description": "The country iso code"
-				},
-				"mcc": {
-					"type": "string",
-					"description": "The mcc"
-				},
-				"networks": {
-					"type": "array",
-					"description": "The networks for this country",
-					"items": {
-						"$ref": "#/definitions/SmsNetworkPriceDto"
-					}
-				}
-			},
-			"description": "Contains basic information about the country along with the network prices"
-		},
-		"VolPriceStatisticReportDto": {
-			"type": "object",
-			"properties": {
-				"count": {
-					"type": "integer",
-					"format": "int32",
-					"description": "The total messages count"
-				},
-				"country": {
-					"type": "string",
-					"description": "The country of this report"
-				},
-				"deliveredCount": {
-					"type": "integer",
-					"format": "int32",
-					"description": "The count of the delivered messages"
-				},
-				"failedCount": {
-					"type": "integer",
-					"format": "int32",
-					"description": "The count of the failed messages"
-				},
-				"mcc": {
-					"type": "string",
-					"description": "The Mcc of this report"
-				},
-				"mnc": {
-					"type": "string",
-					"description": "The Mnc of this report"
-				},
-				"operator": {
-					"type": "string",
-					"description": "The operator of this report"
-				},
-				"price": {
-					"type": "number",
-					"format": "double",
-					"description": "The total price for the total sms of this report for the customer"
-				},
-				"queuedCount": {
-					"type": "integer",
-					"format": "int32",
-					"description": "The count of the queued messages"
-				},
-				"sentCount": {
-					"type": "integer",
-					"format": "int32",
-					"description": "The count of the sent messages"
-				},
-				"smsCampaignId": {
-					"type": "string",
-					"description": "The campaign id of this report"
-				},
-				"startDateTime": {
-					"type": "string",
-					"description": "The starting date and time from which this report was generated"
-				},
-				"timeGrouping": {
-					"type": "string",
-					"description": "The grouping used in this report"
-				},
-				"undeliveredCount": {
-					"type": "integer",
-					"format": "int32",
-					"description": "The count of the undelivered messages"
-				},
-				"unsentCount": {
-					"type": "integer",
-					"format": "int32",
-					"description": "The count of the insufficient balance messages"
-				}
-			},
-			"description": "Contains the analytics for a range of messages associated with the account id"
-		},
-		"TranscodeDto": {
-			"type": "object",
-			"required": [
-				"message",
-				"parts"
-			],
-			"properties": {
-				"message": {
-					"type": "string",
-					"description": "The transcoded message of the original unicode message"
-				},
-				"parts": {
-					"type": "integer",
-					"format": "int32",
-					"description": "The number of actual sms that will be sent"
-				}
-			},
-			"description": "Contains information for the transcoded body of an sms message"
-		},
-		"CurrencyDto": {
-			"type": "object",
-			"required": [
-				"code",
-				"localeName",
-				"name",
-				"sign"
-			],
-			"properties": {
-				"code": {
-					"type": "string",
-					"description": "The currency code in ISO 4217 format"
-				},
-				"localeName": {
-					"type": "string",
-					"description": "The currency name translated in its native language"
-				},
-				"name": {
-					"type": "string",
-					"description": "The currency name translated in the requested language"
-				},
-				"sign": {
-					"type": "string",
-					"description": "The currency sign"
-				}
-			},
-			"description": "Represents a currency"
-		},
-		"CampaignDto": {
-			"type": "object",
-			"required": [
-				"trackingId",
-				"type"
-			],
-			"properties": {
-				"campaignName": {
-					"type": "string",
-					"description": "The name of the campaign"
-				},
-				"createdAt": {
-					"type": "string",
-					"description": "The time the campaign was created"
-				},
-				"respectQuietHours": {
-					"type": "boolean",
-					"example": false,
-					"description": "Indicates if the sms should respects the quiet hours, default value: false"
-				},
-				"state": {
-					"type": "string",
-					"description": "The status of the campaign"
-				},
-				"trackingId": {
-					"type": "string",
-					"description": "The tracking number of the campaign"
-				},
-				"type": {
-					"type": "string",
-					"description": "The service type of the campaign"
-				}
-			},
-			"description": "Basic information about a campaign"
-		},
-		"LookupBreakdownReportInfoDto": {
-			"type": "object",
-			"properties": {
-				"absentCount": {
-					"type": "integer",
-					"format": "int32",
-					"description": "The count of the absent HLR lookup records"
-				},
-				"activeCount": {
-					"type": "integer",
-					"format": "int32",
-					"description": "The count of the active HLR lookup records"
-				},
-				"count": {
-					"type": "integer",
-					"format": "int32",
-					"description": "The count for the HLR lookup records of this report"
-				},
-				"failedCount": {
-					"type": "integer",
-					"format": "int32",
-					"description": "The count of the failed HLR lookup records"
-				},
-				"price": {
-					"type": "number",
-					"format": "double",
-					"description": "The price for the HLR lookup records of this report"
-				},
-				"queuedCount": {
-					"type": "integer",
-					"format": "int32",
-					"description": "The count of the queued HLR lookup records"
-				},
-				"startDateTime": {
-					"type": "string",
-					"description": "The starting date and time from which this report was generated"
-				},
-				"unknownCount": {
-					"type": "integer",
-					"format": "int32",
-					"description": "The count of the unknown HLR lookup records"
-				}
-			},
-			"description": "Contains the details analytics for a range of HLR lookup records associated with the account id"
-		},
-		"CountryDto": {
-			"type": "object",
-			"required": [
-				"code",
-				"isoA3Code",
-				"localeName",
-				"name"
-			],
-			"properties": {
-				"code": {
-					"type": "string",
-					"description": "The country code in ISO 3166-1 alpha-2 format"
-				},
-				"isoA3Code": {
-					"type": "string",
-					"description": "The code of the country in ISO 3166-1 alpha-2 format"
-				},
-				"localeName": {
-					"type": "string",
-					"description": "The country name translated in its native language"
-				},
-				"name": {
-					"type": "string",
-					"description": "The country name translated in the requested language"
-				}
-			},
-			"description": "Represents a country"
-		},
-		"SmsLatencyReportDto": {
-			"type": "object",
-			"properties": {
-				"smsLatencyCount": {
-					"type": "array",
-					"description": "A collection containing the count of the sms delivered by their latency",
-					"items": {
-						"type": "integer",
-						"format": "int64"
-					}
-				}
-			},
-			"description": "Contains the sms latency array for specific matching criteria"
-		},
-		"QuietHourCountryDto": {
-			"type": "object",
-			"required": [
-				"code",
-				"isoA3Code",
-				"localeName",
-				"name",
-				"supported"
-			],
-			"properties": {
-				"code": {
-					"type": "string",
-					"description": "The country code in ISO 3166-1 alpha-2 format"
-				},
-				"isoA3Code": {
-					"type": "string",
-					"description": "The code of the country in ISO 3166-1 alpha-2 format"
-				},
-				"localeName": {
-					"type": "string",
-					"description": "The country name translated in its native language"
-				},
-				"name": {
-					"type": "string",
-					"description": "The country name translated in the requested language"
-				},
-				"supported": {
-					"type": "boolean",
-					"example": false,
-					"description": "Indicates if the country is supported by the quiet hours feature"
-				}
-			},
-			"description": "Contains information for an sms message after being analyzed"
-		},
-		"ContactRecipientInfoDto": {
-			"type": "object",
-			"required": [
-				"blacklisted",
-				"recipient",
-				"recipientCountry"
-			],
-			"properties": {
-				"blacklisted": {
-					"type": "boolean",
-					"example": false,
-					"description": "If the contact is in blacklist (he will not receive a message)"
-				},
-				"recipient": {
-					"type": "string",
-					"description": "The recipient"
-				},
-				"recipientCountry": {
-					"type": "string",
-					"description": "The country of the recipient extracted by the country code"
-				}
-			},
-			"description": "Contains information about a contact after being analyzed"
-		},
-		"ContactGroupDto": {
-			"type": "object",
-			"properties": {
-				"name": {
-					"type": "string",
-					"description": "The name of the group"
-				},
-				"size": {
-					"type": "integer",
-					"format": "int32",
-					"description": "The size of the group (number of contacts)"
-				}
-			},
-			"description": "Contains the group  name and the total count of contacts in the group"
-		},
-		"CallbackInfoDto": {
-			"type": "object",
-			"required": [
-				"strategy",
-				"url"
-			],
-			"properties": {
-				"strategy": {
-					"type": "string",
-					"description": "When the URL will be called, on every status change (OnChange) or when a final status arrives (OnCompletion)"
-				},
-				"url": {
-					"type": "string",
-					"description": "The URL that will be called when an update occurs"
-				}
-			},
-			"description": "Information about a DLR callback"
-		},
-		"SenderOptionDto": {
-			"type": "object",
-			"properties": {
-				"method": {
-					"type": "string"
-				}
-			},
-			"description": "Options for the sender"
-		},
-		"LookupNetworkDto": {
-			"type": "object",
-			"properties": {
-				"mnc": {
-					"type": "string",
-					"description": "The code of the number's ported network"
-				},
-				"name": {
-					"type": "string",
-					"description": "The name of the number's ported network"
-				}
-			},
-			"description": "Represents the information about the look up number network"
-		},
-		"TwoStepReportDto": {
-			"type": "object",
-			"required": [
-				"applicationId",
-				"perCountry",
-				"total",
-				"totals"
-			],
-			"properties": {
-				"applicationId": {
-					"type": "string",
-					"description": "The id of the application"
-				},
-				"perCountry": {
-					"type": "object",
-					"description": "The total number of requests send, grouped by country and by status",
-					"additionalProperties": {
-						"type": "object",
-						"additionalProperties": {
-							"type": "integer",
-							"format": "int64"
-						}
-					}
-				},
-				"total": {
-					"type": "integer",
-					"format": "int64",
-					"description": "The total number of requests send"
-				},
-				"totals": {
-					"type": "object",
-					"description": "The total number of requests send grouped by status",
-					"additionalProperties": {
-						"type": "integer",
-						"format": "int64"
-					}
-				}
-			},
-			"description": "A report that represents the number of verification requests per statusand by country and status, send by a specific application."
-		},
-		"ContactLabelDto": {
-			"type": "object",
-			"required": [
-				"name",
-				"type",
-				"value"
-			],
-			"properties": {
-				"name": {
-					"type": "string",
-					"description": "The name of the custom field"
-				},
-				"type": {
-					"type": "string",
-					"description": "The type of the custom field. Supported types are : Text, Date or Number"
-				},
-				"value": {
-					"type": "object",
-					"description": "The value of the custom field"
-				}
-			},
-			"description": "Contains the name, the value and the type of a contact's custom field."
-		},
-		"LookupRoamingDto": {
-			"type": "object",
-			"properties": {
-				"country": {
-					"type": "string",
-					"description": "The country name of the roaming network"
-				},
-				"countryIsoCode": {
-					"type": "string",
-					"description": "The country code in ISO 3166-1 alpha-2 format"
-				},
-				"mcc": {
-					"type": "string",
-					"description": "The country code of the roaming network"
-				},
-				"mnc": {
-					"type": "string",
-					"description": "The network code of the roaming network"
-				},
-				"network": {
-					"type": "string",
-					"description": "The network name of the roaming network"
-				},
-				"state": {
-					"type": "boolean",
-					"example": false,
-					"description": "Indicates if the number is in roaming mode"
-				}
-			},
-			"description": "Information about the ported network and the country of the number that the lookup request is performed"
-		},
-		"SecurityMessageOptionDto": {
-			"type": "object",
-			"properties": {
-				"lifetimeInSeconds": {
-					"type": "integer",
-					"format": "int32",
-					"description": "Indicates the number of seconds that the verification will be valid, when that time passes the user will not be able to confirm the request"
-				},
-				"maxRetries": {
-					"type": "integer",
-					"format": "int32",
-					"description": "The number of times the user is allowed to enter a wrong answer before the verification becomes invalid"
-				},
-				"type": {
-					"type": "string"
-				}
-			},
-			"description": "Options for the security message"
-		},
-		"BalanceChangeDto": {
-			"type": "object",
-			"required": [
-				"balanceAfter",
-				"balanceBefore"
-			],
-			"properties": {
-				"balanceAfter": {
-					"type": "number",
-					"description": "The balance after the transaction"
-				},
-				"balanceBefore": {
-					"type": "number",
-					"description": "The balance before the transaction"
-				}
-			},
-			"description": "Represents a change to the balance after successfully adding a transaction"
-		},
-		"SmsStatusDto": {
-			"type": "object",
-			"required": [
-				"date",
-				"status"
-			],
-			"properties": {
-				"date": {
-					"type": "string",
-					"description": "The date that the status was reported"
-				},
-				"reason": {
-					"type": "string",
-					"description": "An extra reason for the status"
-				},
-				"status": {
-					"type": "string",
-					"description": "The status"
-				}
-			},
-			"description": "Represents a status for an sms"
-		},
-		"GroupDeleteResponseDto": {
-			"type": "object",
-			"properties": {
-				"deletedContacts": {
-					"type": "boolean",
-					"example": false,
-					"description": "Defines whether the contacts of the group have been deleted or not"
-				},
-				"name": {
-					"type": "string",
-					"description": "The tag of the group that has been deleted"
-				}
-			},
-			"description": "Contains the deleted tag and whether its contacts have been deleted"
-		},
-		"SmsTestCampaignDto": {
-			"type": "object",
-			"required": [
-				"to"
-			],
-			"properties": {
-				"minutesAfter": {
-					"type": "integer",
-					"format": "int32",
-					"description": "The minutes after the scheduled date (that the sms will be send) that the test sms will be send"
-				},
-				"minutesBefore": {
-					"type": "integer",
-					"format": "int32",
-					"description": "The minutes before the scheduled date (that the sms will be send) that the test sms will be send"
-				},
-				"to": {
-					"type": "array",
-					"description": "The recipients of this sms that will get a test sms before and/or after the campaign will start. Must be a list with valid mobile numbers starting with + and the country code",
-					"items": {
-						"type": "string"
-					}
-				}
-			},
-			"description": "Represents a test sms that will be send before and/or after the actual sms"
-		},
-		"ContactCustomField": {
-			"type": "object",
-			"properties": {
-				"name": {
-					"type": "string"
-				},
-				"type": {
-					"type": "string",
-					"enum": [
-						"Date",
-						"Number",
-						"Text",
-						"Unknown"
-					]
-				},
-				"value": {
-					"type": "object"
-				}
-			}
-		},
-		"SearchFilter": {
-			"type": "object",
-			"properties": {
-				"fieldName": {
-					"type": "string"
-				},
-				"searchOperator": {
-					"type": "string",
-					"enum": [
-						"is",
-						"is_not",
-						"contains",
-						"starts_with",
-						"ends_with"
-					]
-				},
-				"searchTerm": {
-					"type": "object"
-				}
-			}
-		},
-		"SearchFilterDto": {
-			"type": "object",
-			"required": [
-				"fieldName",
-				"searchTerm"
-			],
-			"properties": {
-				"fieldName": {
-					"type": "string",
-					"description": "Defines the name of the field for this filter"
-				},
-				"searchOperator": {
-					"type": "string",
-					"description": "Defines the search operator to be used for the search. Examples: is, is_not, contains, starts_with, ends_with"
-				},
-				"searchTerm": {
-					"type": "object",
-					"description": "Defines the search term to be used for the search"
-				}
-			},
-			"description": "Contains the field and term information for a search filter"
-		},
-		"VerificationStatusDto": {
-			"type": "object",
-			"required": [
-				"status",
-				"trackingId",
-				"updatedAt"
-			],
-			"properties": {
-				"status": {
-					"type": "string",
-					"description": "The status of the verification. \nPending: When the verification is created and is waiting for a confirmation, \nVerified: A correct answer was provided, \nCancelled: The verification was cancelled,\nExpired: The verification is expired,\nFailed: A wrong answer was provided"
-				},
-				"trackingId": {
-					"type": "string",
-					"description": "The tracking id "
-				},
-				"updatedAt": {
-					"type": "string",
-					"description": "The date that this verification was update"
-				}
-			},
-			"description": "Represents status information about a verification request"
-		},
-		"NumericUpdateResultDto": {
-			"type": "object",
-			"properties": {
-				"updated": {
-					"type": "integer",
-					"format": "int32"
-				}
-			}
-		},
-		"LookupBreakdownReportSummaryDto": {
-			"type": "object",
-			"properties": {
-				"timeGrouping": {
-					"type": "string",
-					"description": "The grouping used in this report"
-				},
-				"totalAbsent": {
-					"type": "integer",
-					"format": "int32",
-					"description": "The total absent"
-				},
-				"totalActive": {
-					"type": "integer",
-					"format": "int32",
-					"description": "The total active"
-				},
-				"totalCount": {
-					"type": "integer",
-					"format": "int32",
-					"description": "The total count"
-				},
-				"totalFailed": {
-					"type": "integer",
-					"format": "int32",
-					"description": "The total failed"
-				},
-				"totalPrice": {
-					"type": "number",
-					"format": "double",
-					"description": "The total price"
-				},
-				"totalQueued": {
-					"type": "integer",
-					"format": "int32",
-					"description": "The total queued"
-				},
-				"totalUnknown": {
-					"type": "integer",
-					"format": "int32",
-					"description": "The total unknown"
-				}
-			},
-			"description": "Contains the totals analytics for a range of HLR lookup records associated with the account id"
-		},
-		"LabelDefinitionDto": {
-			"type": "object",
-			"required": [
-				"name",
-				"type"
-			],
-			"properties": {
-				"name": {
-					"type": "string",
-					"description": "The name of the custom field"
-				},
-				"type": {
-					"type": "string",
-					"description": "The type of the custom field. Supported types are : Text, Date or Number"
-				}
-			},
-			"description": "Contains the name and the type of a contact's custom field definition."
-		},
-		"BankDto": {
-			"type": "object",
-			"required": [
-				"address",
-				"country",
-				"currency",
-				"iban",
-				"minAmount",
-				"name",
-				"number",
-				"swiftCode"
-			],
-			"properties": {
-				"address": {
-					"type": "string",
-					"description": "The address of the bank"
-				},
-				"country": {
-					"type": "string",
-					"description": "The country of the bank"
-				},
-				"currency": {
-					"type": "string",
-					"description": "The currency of the bank"
-				},
-				"iban": {
-					"type": "string",
-					"description": "The iban of the bank"
-				},
-				"minAmount": {
-					"type": "number",
-					"description": "The min amount to transfer money to this bank"
-				},
-				"name": {
-					"type": "string",
-					"description": "The name of the bank"
-				},
-				"number": {
-					"type": "string",
-					"description": "The number of the bank"
-				},
-				"swiftCode": {
-					"type": "string",
-					"description": "The swift code of the bank"
-				}
-			},
-			"description": "Represents a bank"
-		},
-		"StackTraceElement": {
-			"type": "object",
-			"properties": {
-				"className": {
-					"type": "string"
-				},
-				"fileName": {
-					"type": "string"
-				},
-				"lineNumber": {
-					"type": "integer",
-					"format": "int32"
-				},
-				"methodName": {
-					"type": "string"
-				},
-				"nativeMethod": {
-					"type": "boolean"
-				}
-			}
-		},
-		"LookupStatusInfo": {
-			"type": "object",
-			"properties": {
-				"description": {
-					"type": "string",
-					"description": "A more descriptive information about the status of the request"
-				},
-				"status": {
-					"type": "string",
-					"description": "The status of the look up request"
-				},
-				"updatedAt": {
-					"type": "string",
-					"description": "The date that the request's status has been updated"
-				}
-			},
-			"description": " Information about the status related to the given mobile number after the lookup service is performed."
-		},
-		"TransactionActionDto": {
-			"type": "object",
-			"required": [
-				"amount",
-				"balanceAfter",
-				"balanceBefore",
-				"date",
-				"id",
-				"status",
-				"type"
-			],
-			"properties": {
-				"amount": {
-					"type": "number",
-					"description": "The amount of the action"
-				},
-				"balanceAfter": {
-					"type": "number",
-					"description": "The amount of balance that the account had after the processing of the action"
-				},
-				"balanceBefore": {
-					"type": "number",
-					"description": "The amount of balance that the account had before the action was processed"
-				},
-				"date": {
-					"type": "string",
-					"description": "The date that the action was created"
-				},
-				"id": {
-					"type": "string",
-					"description": "The id of the action"
-				},
-				"status": {
-					"type": "string",
-					"description": "The status of the action (Completed, Pending)"
-				},
-				"type": {
-					"type": "string",
-					"description": "The type of the action (Paid, Credit, ChangeStatus, Remove, Refund)"
-				}
-			},
-			"description": "Represents a transaction action"
-		},
-		"Character": {
-			"type": "object"
-		},
-		"LookupRequestDto": {
-			"type": "object",
-			"required": [
-				"to"
-			],
-			"properties": {
-				"label": {
-					"type": "string",
-					"description": "A generic label using for tagging the number"
-				},
-				"to": {
-					"type": "string",
-					"description": "The number that the hlr service will use"
-				}
-			},
-			"description": "Represents the information required to perform the look up"
-		},
-		"Map«string,long»": {
-			"type": "object",
-			"additionalProperties": {
-				"type": "integer",
-				"format": "int64"
-			}
-		},
+    },
 
+  "externalDocs": {
+    "description": "Find out more about Routee",
+    "url": "http://www.routee.net"
+  },
+  
+  "securityDefinitions": {
+    "routee_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://auth.routee.net/oauth/token",
+      "flow": "implicit",
+      "scopes": {
+        "write:VerificationDto": "modify pets in your account",
+        "read:VerificationDto": "read your pets"
+      }
+    },
+    "api_key": {
+      "type": "apiKey",
+      "name": "api_key",
+      "in": "header"
+    }
+  }  
+  
 
-		"VerificationDto": {
-			"type": "object",
-			"required": [
-				"recipient"
-			],
-			"properties": {
-				"arguments": {
-					"type": "object",
-					"description": "A list of arguments for the template message.For example, if the template message contains an @@name and a name:john is send as an argument the @@name will be replaced with john",
-					"additionalProperties": {
-						"type": "string"
-					}
-				},
-				"recipient": {
-					"type": "string",
-					"description": "The recipient to send the sms message to (must be a valid phone number)"
-				},
-				"securityMessageOption": {
-					"$ref": "#/definitions/SecurityMessageOptionDto"
-				},
-				"senderOption": {
-					"$ref": "#/definitions/SenderOptionDto"
-				},
-				"template": {
-					"type": "string",
-					"description": "The template to send to the user, if not provided the appropriate template from the settings will be send. The template must contain the @@pin that will be replaced by the generated code"
-				},
-				"templateCountry": {
-					"type": "string",
-					"description": "The country that will be used to select the appropriate template (if a template wasn't specified in this request).If not provided the country will be exported from the recipient mobile number"
-				}
-			},
-			"description": "A verification request. When send it will initiate the two step verification process"
-		}
-
-	}
 }
