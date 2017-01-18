@@ -459,9 +459,7 @@
     "Throwable": {
             "type": "object",
             "properties": {
-                "cause": {
-                    "$ref": "#/definitions/Throwable"
-                },
+
                 "localizedMessage": {
                     "type": "string"
                 },
@@ -473,12 +471,7 @@
                     "items": {
                         "$ref": "#/definitions/StackTraceElement"
                     }
-                },
-                "suppressed": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/Throwable"
-                    }
+                }
                 }
             }
         },
