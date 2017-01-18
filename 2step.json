@@ -777,7 +777,38 @@
             }
         },
 
-
+        "WrongAnswerServiceException": {
+            "type": "object",
+            "properties": {
+                "cause": {
+                    "$ref": "#/definitions/Throwable"
+                },
+                "code": {
+                    "type": "string"
+                },
+                "developerMessage": {
+                    "type": "string"
+                },
+                "localizedMessage": {
+                    "type": "string"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "stackTrace": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/StackTraceElement"
+                    }
+                },
+                "suppressed": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Throwable"
+                    }
+                }
+            }
+        },
 	"VerificationDto": {
             "type": "object",
             "required": [
