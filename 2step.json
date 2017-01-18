@@ -646,6 +646,40 @@
             },
             "description": "Options for the security message"
         }, 
+	"VerificationDto": {
+            "type": "object",
+            "required": [
+                "recipient"
+            ],   
+            "properties": {
+                "arguments": {
+                    "type": "object",
+                    "description": "A list of arguments for the template message.For example, if the template message contains an @@name and a name:john is send as an argument the @@name will be replaced with john",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "recipient": {
+                    "type": "string",
+                    "description": "The recipient to send the sms message to (must be a valid phone number)"
+                },
+                "securityMessageOption": {
+                    "$ref": "#/definitions/SecurityMessageOptionDto"
+                },
+                "senderOption": {
+                    "$ref": "#/definitions/SenderOptionDto"
+                },
+                "template": {
+                    "type": "string",
+                    "description": "The template to send to the user, if not provided the appropriate template from the settings will be send. The template must contain the @@pin that will be replaced by the generated code"
+                },
+                "templateCountry": {
+                    "type": "string",
+                    "description": "The country that will be used to select the appropriate template (if a template wasn't specified in this request).If not provided the country will be exported from the recipient mobile number"
+                }
+            },
+            "description": "A verification request. When send it will initiate the two step verification process"
+        },
     "TwoStepReportDto": {
             "type": "object",
             "required": [
@@ -686,8 +720,7 @@
             },
             "description": "A report that represents the number of verification requests per statusand by country and status, send by a specific application."
         },           
-
-        "StackTraceElement": {
+    "StackTraceElement": {
             "type": "object",
             "properties": {
                 "className": {
@@ -708,8 +741,7 @@
                 }
             }
         },
-
-        "Throwable": {
+    "Throwable": {
             "type": "object",
             "properties": {
                 "cause": {
@@ -735,7 +767,7 @@
                 }
             }
         },
-        "VerificationNotFoundServiceException": {
+    "VerificationNotFoundServiceException": {
             "type": "object",
             "properties": {
                 "cause": {
@@ -776,8 +808,7 @@
                 }
             }
         },
-
-        "WrongAnswerServiceException": {
+    "WrongAnswerServiceException": {
             "type": "object",
             "properties": {
                 "cause": {
@@ -808,49 +839,12 @@
                     }
                 }
             }
-        },
-	"VerificationDto": {
-            "type": "object",
-            "required": [
-                "recipient"
-            ],   
-            "properties": {
-                "arguments": {
-                    "type": "object",
-                    "description": "A list of arguments for the template message.For example, if the template message contains an @@name and a name:john is send as an argument the @@name will be replaced with john",
-                    "additionalProperties": {
-                        "type": "string"
-                    }
-                },
-                "recipient": {
-                    "type": "string",
-                    "description": "The recipient to send the sms message to (must be a valid phone number)"
-                },
-                "securityMessageOption": {
-                    "$ref": "#/definitions/SecurityMessageOptionDto"
-                },
-                "senderOption": {
-                    "$ref": "#/definitions/SenderOptionDto"
-                },
-                "template": {
-                    "type": "string",
-                    "description": "The template to send to the user, if not provided the appropriate template from the settings will be send. The template must contain the @@pin that will be replaced by the generated code"
-                },
-                "templateCountry": {
-                    "type": "string",
-                    "description": "The country that will be used to select the appropriate template (if a template wasn't specified in this request).If not provided the country will be exported from the recipient mobile number"
-                }
-            },
-            "description": "A verification request. When send it will initiate the two step verification process"
         }
-
     },
-
   "externalDocs": {
     "description": "Find out more about Routee",
     "url": "http://www.routee.net"
   },
-  
   "securityDefinitions": {
     "routee_auth": {
       "type": "oauth2",
@@ -866,7 +860,5 @@
       "name": "api_key",
       "in": "header"
     }
-  }   
-  
-
+  }  
 }
