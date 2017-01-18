@@ -643,7 +643,7 @@
 				"mnc",
 				"network",
 				"price"
-			],
+			], 
 			"properties": {
 				"mnc": {
 					"type": "string",
