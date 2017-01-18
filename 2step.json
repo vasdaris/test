@@ -686,6 +686,98 @@
             },
             "description": "A report that represents the number of verification requests per statusand by country and status, send by a specific application."
         },           
+
+        "StackTraceElement": {
+            "type": "object",
+            "properties": {
+                "className": {
+                    "type": "string"
+                },
+                "fileName": {
+                    "type": "string"
+                },
+                "lineNumber": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "methodName": {
+                    "type": "string"
+                },
+                "nativeMethod": {
+                    "type": "boolean"
+                }
+            }
+        },
+
+        "Throwable": {
+            "type": "object",
+            "properties": {
+                "cause": {
+                    "$ref": "#/definitions/Throwable"
+                },
+                "localizedMessage": {
+                    "type": "string"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "stackTrace": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/StackTraceElement"
+                    }
+                },
+                "suppressed": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Throwable"
+                    }
+                }
+            }
+        },
+        "VerificationNotFoundServiceException": {
+            "type": "object",
+            "properties": {
+                "cause": {
+                    "$ref": "#/definitions/Throwable"
+                },
+                "code": {
+                    "type": "string"
+                },
+                "developerMessage": {
+                    "type": "string"
+                },
+                "entity": {
+                    "type": "string"
+                },
+                "localizedMessage": {
+                    "type": "string"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "property": {
+                    "type": "string"
+                },
+                "stackTrace": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/StackTraceElement"
+                    }
+                },
+                "suppressed": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Throwable"
+                    }
+                },
+                "value": {
+                    "type": "string"
+                }
+            }
+        },
+
+
 	"VerificationDto": {
             "type": "object",
             "required": [
